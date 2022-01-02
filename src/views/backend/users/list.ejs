@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+
+  <title>ADMIN</title>
+
+  <!-- Font Awesome Icons -->
+  <link rel="stylesheet" href="/backend/plugins/fontawesome-free/css/all.min.css">
+  <!-- overlayScrollbars -->
+  <link rel="stylesheet" href="/backend/plugins/overlayScrollbars/css/OverlayScrollbars.min.css">
+  <!-- Theme style -->
+  <link rel="stylesheet" href="/backend/dist/css/adminlte.min.css">
+  <!-- Google Font: Source Sans Pro -->
+  <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
+</head>
+<body class="hold-transition sidebar-mini layout-fixed layout-navbar-fixed layout-footer-fixed">
+<div class="wrapper">
+  <!-- Navbar -->
+  <%-  include('../includes/header')%>
+  <!-- /.navbar -->
+
+  <!-- Main Sidebar Container -->
+  <%-  include('../includes/sidebar')%>
+
+  <!-- Content Wrapper. Contains page content -->
+  <div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <div class="content-header">
+      <div class="container-fluid">
+        <div class="row mb-2">
+          <div class="col-sm-6">
+            <h1 class="m-0 text-dark">Dashboard v2</h1>
+          </div><!-- /.col -->
+          <div class="col-sm-6">
+            <ol class="breadcrumb float-sm-right">
+              <li class="breadcrumb-item"><a href="#">Home</a></li>
+              <li class="breadcrumb-item active">Dashboard v2</li>
+            </ol>
+          </div><!-- /.col -->
+        </div><!-- /.row -->
+      </div><!-- /.container-fluid -->
+    </div>
+    <!-- /.content-header -->
+
+    <!-- Main content -->
+    <section class="content">
+      <div class="container-fluid">
+        <!-- Info boxes -->
+        <button class="btn btn-success">
+            <a href="/users/create">Create</a>
+        </button>
+        <h2>Danh sách các sản phẩm</h2>
+        <a href="/users/trash">Thùng rác</a>
+        <div>
+            <table class="table">
+                <tr>
+                    <th>Stt</th>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Avatar</th>
+                    <th>Active</th>
+                </tr>
+                <% users.forEach(function(user){%>
+                  <tr>
+                    <td>1</td>
+                    <td><%= user.name%></td>
+                    <td><%= user.email%></td>
+                    <td>
+                     <img src="/backend/uploads/<%= user.avatar%>" alt="" style="max-width: 15%;">
+                    </td>
+                    <td>
+                      <a href="/users/edit/<%= user._id%>">Sửa</a>
+                      <a href="" data-toggle="modal" data-target="#modal-delete-user" data-id="<%= user._id%>">Xóa</a>
+                    </td>
+                  </tr>
+                  <% }) %>
+            </table>
+          
+              <!--modal delete-->
+            <div class="modal fade" id="modal-delete-user" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+              <div class="modal-dialog">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h5 class="modal-title">Delete user</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"></button>
+                  </div>
+                  <div class="modal-body">
+                    <p>Bạn chắc chắn muốn xóa?</p>
+                  </div>
+                  <div class="modal-footer">
+                    <button type="button" id="btn-delete" class="btn btn-danger">Delete</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                  </div>
+                </div>
+              </div>
+            </div><!--end modal delete-->
+        </div>
+        <!-- /.row -->
+
+      </div><!--/. container-fluid -->
+    </section>
+    <!-- /.content -->
+  </div>
+  <!-- /.content-wrapper -->
+
+  <!-- Control Sidebar -->
+  <aside class="control-sidebar control-sidebar-dark">
+    <!-- Control sidebar content goes here -->
+  </aside>
+  <!-- /.control-sidebar -->
+  <form name="form-delete-user" method="POST"></form>
+  <!-- Main Footer -->
+  <%- include('../includes/footer')%>
+  <script>
+    var user_id;
+    var formDelete = document.forms['form-delete-user'];
+    $('#modal-delete-user').on('show.bs.modal', function (event) {
+      var button = $(event.relatedTarget);
+      user_id = button.data('id');
+      
+     
+    })
+    var btnDelete = document.getElementById('btn-delete');
+    btnDelete.onclick = function () {
+      formDelete.action='/users/delete/'+ user_id +'?_method=DELETE';
+      formDelete.submit();
+    }
+  </script>
+</body>
+</html>

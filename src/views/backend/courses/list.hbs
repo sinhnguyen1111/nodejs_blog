@@ -1,0 +1,20 @@
+<h2>Danh sach khoa hoc</h2>
+<div>
+    <table>
+        <tr>
+            <th>STT</th>
+            <th>Name</th>
+            <th>CreateAt</th>
+            <th colspan="2">Active</th>
+        </tr>
+        {{#each courses}}
+        <tr>
+            <td>{{sum @index 1}}</td>
+            <td>{{this.name}}</td>
+            <td>{{this.createdAt}}</td>
+            <td><a href="/courses/edit/{{this._id}}">Edit</a></td>
+             <td><a href="/courses/delete/{{this._id}}">Delete</a></td>
+        </tr>
+        {{/each }}
+    </table>
+</div>

@@ -1,0 +1,16 @@
+<h2>Chinh sua khoa hoc</h2>
+<form action="/courses/update/{{course._id}}?_method=PUT" method="POST">
+  <div class="mb-3">
+    <label for="exampleInputEmail1" class="form-label">Ten khoa hoc</label>
+    <input type="text" name="name" value="{{course.name}}" class="form-control" id="exampleInputEmail1" >
+  </div>
+  <div class="mb-3">
+    <label for="exampleInput2" class="form-label">Mo ta</label>
+    <input type="text" name="description" value="{{course.description}}" class="form-control" id="exampleInputEmail1" >
+  </div>
+  <div class="mb-3">
+    <label for="exampleInputEmail1" class="form-label">VideoId</label>
+    <input type="text" name="videoId" value="{{course.videoId}}" class="form-control" id="exampleInputEmail1" >
+  </div>
+  <button type="submit" class="btn btn-primary">Create</button>
+</form>
