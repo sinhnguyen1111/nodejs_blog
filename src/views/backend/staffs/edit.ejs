@@ -61,15 +61,14 @@
                     <textarea id="summernote" name="introduce"  class="form-control" 
                       style="width: 100%; height: 200px; font-size: 14px; line-height: 18px; border: 1px solid #dddddd; padding: 10px;"><%= staff.introduce %></textarea>
                   </div>
-                <div class="custom-file mb-3">
-                  <input type="file" name="avatar" class="custom-file-input" id="validatedCustomFile" required>
-                  <label class="custom-file-label" for="validatedCustomFile">Choose file...</label>
-                  <div class="invalid-feedback">Example invalid custom file feedback</div>
+                <div class="custom-file mb-3" style="min-height: 243px;">
+                  <input type="file" name="avatar" class="custom-file-input" id="validatedCustomFile"  onchange="loadFile(event)">
+                  <label class="custom-file-label" for="validatedCustomFile"><%=staff.avatar%> </label>
+                  <img src="/backend/uploads/<%=staff.avatar%>" id="image_past" style="width: 20%; margin-top: 20px;">
                 </div>
                 <button type="submit" class="btn btn-primary">Create</button>
               </form>
 
-            
         </div>
         <!-- /.row -->
 
@@ -87,6 +86,13 @@
 
   <!-- Main Footer -->
   <%- include('../includes/footer')%>
-  
+  <script>
+    var loadFile = function(event){
+    $('#image_past').attr('src',URL.createObjectURL(event.target.files[0]));
+    $('#image_past').onload = function() {
+      URL.revokeObjectURL($('#image_past').src); // free memory
+    }
+}
+  </script>
 </body>
 </html>
