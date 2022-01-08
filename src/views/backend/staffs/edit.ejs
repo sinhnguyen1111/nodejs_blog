@@ -1,23 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta http-equiv="x-ua-compatible" content="ie=edge">
-
-  <title>ADMIN</title>
-
-  <!-- Font Awesome Icons -->
-  <link rel="stylesheet" href="/backend/plugins/fontawesome-free/css/all.min.css">
-  <!-- overlayScrollbars -->
-  <link rel="stylesheet" href="/backend/plugins/overlayScrollbars/css/OverlayScrollbars.min.css">
-  <!-- Theme style -->
-  <link rel="stylesheet" href="/backend/dist/css/adminlte.min.css">
-
-  <!--Summer note-->
-  <link rel="stylesheet" href="/backend/plugins/summernote/summernote.min.css">
-  <!-- Google Font: Source Sans Pro -->
-  <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
+ <%- include('../includes/headerCSS')%>
 </head>
 <body class="hold-transition sidebar-mini layout-fixed layout-navbar-fixed layout-footer-fixed">
 <div class="wrapper">
@@ -33,40 +17,44 @@
     <!-- Content Header (Page header) -->
     <div class="content-header">
       <div class="container-fluid">
-        <div class="row mb-2">
-          <div class="col-sm-6">
-            <ol class="breadcrumb float-sm-right">
-              <li class="breadcrumb-item"><a href="#">Home</a></li>
-              <li class="breadcrumb-item active">Dashboard v2</li>
-            </ol>
-          </div><!-- /.col -->
-        </div><!-- /.row -->
+        <div class="header-edit">
+          <div class="title-header">Chỉnh sửa nhân viên thợ tóc</div>
+          <div><a href="/staffs/list"><i class="fas fa-arrow-left"></i></a></div>
+        </div>
       </div><!-- /.container-fluid -->
     </div>
     <!-- /.content-header -->
 
     <!-- Main content -->
     <section class="content">
-      <div class="container-fluid">
-        <!-- Info boxes -->
-        <h2>Chỉnh sửa thông tin thợ tóc</h2>
+      <div class="container-fluid create-container">
         <div>
             <form action="/staffs/update/<%=staff._id%>?_method=PUT" method="POST" enctype="multipart/form-data">
                 <div class="mb-3">
-                  <label for="exampleInputEmail1" class="form-label">Name: </label>
+                  <label for="exampleInputEmail1" class="form-label">Tên thợ</label>
                   <input type="text" name="name" value="<%= staff.name %>" class="form-control" placeholder="Điền tên nhân viên thợ tóc">
                 </div>
                 <div class="mb-3">
+                  <label for="exampleInputEmail1" class="form-label">Email</label>
+                  <input type="text" name="email" value="<%= staff.email %>" class="form-control" placeholder="Điền email">
+                </div>
+                <div class="mb-3">
+                  <label for="exampleInputEmail1" class="form-label">Số điện thoại</label>
+                  <input type="text" name="numberphone" value="<%= staff.numberphone %>" class="form-control" placeholder="Điền số điện thoại">
+                </div>
+                <div class="mb-3">
                     <label class="form-label">Introduce</label>
-                    <textarea id="summernote" name="introduce"  class="form-control" 
+                    <textarea class="summernote" name="introduce"  class="form-control" 
                       style="width: 100%; height: 200px; font-size: 14px; line-height: 18px; border: 1px solid #dddddd; padding: 10px;"><%= staff.introduce %></textarea>
                   </div>
-                <div class="custom-file mb-3" style="min-height: 243px;">
-                  <input type="file" name="avatar" class="custom-file-input" id="validatedCustomFile"  onchange="loadFile(event)">
+                <div class="custom-file mb-3">
+                  <input type="file" name="avatar" class="custom-file-input avatar" id="validatedCustomFile"  onchange="previewFile(this)">
                   <label class="custom-file-label" for="validatedCustomFile"><%=staff.avatar%> </label>
-                  <img src="/backend/uploads/<%=staff.avatar%>" id="image_past" style="width: 20%; margin-top: 20px;">
                 </div>
-                <button type="submit" class="btn btn-primary">Create</button>
+                <div> 
+                  <img src="/backend/uploads/<%=staff.avatar%>" class="previewImg">
+                </div>
+                <button type="submit" class="btn btn-primary">Chỉnh sửa</button>
               </form>
 
         </div>
@@ -86,13 +74,6 @@
 
   <!-- Main Footer -->
   <%- include('../includes/footer')%>
-  <script>
-    var loadFile = function(event){
-    $('#image_past').attr('src',URL.createObjectURL(event.target.files[0]));
-    $('#image_past').onload = function() {
-      URL.revokeObjectURL($('#image_past').src); // free memory
-    }
-}
-  </script>
+  
 </body>
 </html>

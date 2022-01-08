@@ -1,0 +1,36 @@
+<section class="content create-type">
+  <div class="container-fluid">
+    <!-- Info boxes -->
+    <h2 class="title-header">Thêm mới danh mục</h2>
+    <div>
+        <form action="/categories/store" method="POST" enctype="multipart/form-data">
+            <div class="mb-3">
+              <label for="exampleInputEmail1" class="form-label">Name: </label>
+              <input type="text" name="name" class="form-control">
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Description</label>
+                <textarea class="summernote" name="description"  class="form-control"></textarea>
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Category</label>
+                <select name="category" id="">
+                    <option value="">---Chọn danh mục thuộc về---</option>
+                    <option value="Service">Service</option>
+                    <option value="Product">Product</option>
+                </select>
+            </div>
+            <div class="custom-file mb-3">
+              <input type="file" name="avatar" class="custom-file-input avatar" id="validatedCustomFile" required onchange="previewFile(this)">
+              <label class="custom-file-label" for="validatedCustomFile">Chọn ảnh địa diện danh mục</label>
+            </div>
+            <div>
+              <img class="previewImg"src="http://aimory.vn/wp-content/uploads/2017/10/no-image.png" alt="" id="displayImg1" width="15%">
+            </div>
+            <button type="submit" class="btn btn-primary btn-active-create">Thêm mới</button>
+          </form>
+    </div>
+    <!-- /.row -->
+
+  </div><!--/. container-fluid -->
+</section>

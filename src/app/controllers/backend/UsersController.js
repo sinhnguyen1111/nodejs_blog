@@ -8,7 +8,7 @@ class UsersController{
     index(req,res,next){
         User.find({})
             .then(users => res.render('backend/users/list',{
-                users
+                users,name: req.session.name
             }))
             .catch(next);
     }
@@ -22,7 +22,7 @@ class UsersController{
     //         .catch(next);
     // }
     create(req,res,next){
-        res.render('backend/users/create');
+        res.render('backend/users/create',{name: req.session.name});
     }
     
     store(req,res,next){
@@ -69,13 +69,15 @@ class UsersController{
     edit(req,res,next){
         User.findById(req.params.id)
             .then(user => res.render('backend/users/edit',{
-                user
+                user,name: req.session.name,
                 }))
         
             .catch(next);
     }
     update(req,res,next){
-        User.updateOne({_id: req.params.id},req.body)
+        const formData = req.body;
+        formData.avatar = req.file.filename;
+        User.updateOne({_id: req.params.id},formData)
             .then(() => res.redirect('/users/list'))
             .catch(next)
     }
@@ -87,7 +89,7 @@ class UsersController{
     trash(req,res,next){
         User.findDeleted({})
         .then(users => res.render('backend/users/trash',{
-            users
+            users,name: req.session.name
         }))
         .catch(next);
     }

@@ -1,20 +1,125 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <%- include('../includes/headerCSS')%>
+  <style>
+    .rating-container {
+        position: relative;
+        background: #111;
+        border: 1px solid #444;
+        border-radius: 5px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+    }
 
-  <title>ADMIN</title>
+    .rating-container .rated {
+        display: none;
+    }
 
-  <!-- Font Awesome Icons -->
-  <link rel="stylesheet" href="/backend/plugins/fontawesome-free/css/all.min.css">
-  <!-- overlayScrollbars -->
-  <link rel="stylesheet" href="/backend/plugins/overlayScrollbars/css/OverlayScrollbars.min.css">
-  <!-- Theme style -->
-  <link rel="stylesheet" href="/backend/dist/css/adminlte.min.css">
-  <!-- Google Font: Source Sans Pro -->
-  <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
+    .rating-container .text {
+        font-size: 24px;
+        color: #666;
+        font-weight: 500;
+        line-height: 50px;
+    }
+
+    .rating-container .star-widget input {
+        display: none;
+    }
+
+    .star-widget label {
+        font-size: 30px;
+        color: #444;
+        padding: 10px;
+        float: right;
+        transition: all 0.2s ease;
+    }
+
+    input:not(:checked)~label:hover,
+    input:not(:checked)~label:hover~label {
+        color: #fd4;
+    }
+
+    input:checked~label {
+        color: #fd4;
+    }
+
+    input#rate-5:checked~label {
+        color: #fe7;
+        text-shadow: 0 0 20px #952;
+    }
+
+    .star-text .textarea {
+        height: 100px;
+        width: 100%;
+        overflow: hidden;
+    }
+
+    .star-text .textarea textarea {
+        height: 100%;
+        width: 100%;
+        outline: none;
+        color: #eee;
+        border: 1px solid #333;
+        background: #222;
+        padding: 10px;
+        font-size: 17px;
+        resize: none;
+    }
+
+    .textarea textarea:focus {
+        border-color: #444;
+    }
+
+    .star-text .btn {
+        height: 45px;
+        width: 100%;
+        margin: 15px 0;
+    }
+
+    .star-text .btn button {
+        height: 100%;
+        width: 100%;
+        border: 1px solid #444;
+        outline: none;
+        background: #222;
+        color: #999;
+        font-size: 17px;
+        font-weight: 500;
+        text-transform: uppercase;
+        cursor: pointer;
+        transition: all 0.3s ease;
+    }
+
+    .star-text .btn button:hover {
+        background: #1b1b1b;
+    }
+
+    .needs-validation h2 {
+        text-shadow: 1px 1px 10px rgba(0, 0, 0, 0.5);
+    }
+
+    .modal-content {
+        box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+    }
+
+    .nav-link {
+        border: 1px solid rgba(52, 58, 64, 0.5);
+        color: #343A40;
+    }
+
+    .nav-link:hover {
+        box-shadow: 0 0 5px #343A40;
+        color: #343A40;
+    }
+
+    .nav-link.active {
+        background: #343A40 !important;
+        color: white !important;
+    }
+</style>
 </head>
 <body class="hold-transition sidebar-mini layout-fixed layout-navbar-fixed layout-footer-fixed">
 <div class="wrapper">
@@ -28,21 +133,7 @@
   <!-- Content Wrapper. Contains page content -->
   <div class="content-wrapper">
     <!-- Content Header (Page header) -->
-    <div class="content-header">
-      <div class="container-fluid">
-        <div class="row mb-2">
-          <div class="col-sm-6">
-            <h1 class="m-0 text-dark">Dashboard v2</h1>
-          </div><!-- /.col -->
-          <div class="col-sm-6">
-            <ol class="breadcrumb float-sm-right">
-              <li class="breadcrumb-item"><a href="#">Home</a></li>
-              <li class="breadcrumb-item active">Dashboard v2</li>
-            </ol>
-          </div><!-- /.col -->
-        </div><!-- /.row -->
-      </div><!-- /.container-fluid -->
-    </div>
+    
     <!-- /.content-header -->
 
     <!-- Main content -->
@@ -55,10 +146,10 @@
               <span class="info-box-icon bg-info elevation-1"><i class="fas fa-cog"></i></span>
 
               <div class="info-box-content">
-                <span class="info-box-text">CPU Traffic</span>
+                <span class="info-box-text">Nhân viên quản trị</span>
                 <span class="info-box-number">
                   10
-                  <small>%</small>
+                  
                 </span>
               </div>
               <!-- /.info-box-content -->
@@ -71,8 +162,8 @@
               <span class="info-box-icon bg-danger elevation-1"><i class="fas fa-thumbs-up"></i></span>
 
               <div class="info-box-content">
-                <span class="info-box-text">Likes</span>
-                <span class="info-box-number">41,410</span>
+                <span class="info-box-text">Thợ tóc</span>
+                <span class="info-box-number">20</span>
               </div>
               <!-- /.info-box-content -->
             </div>
@@ -88,8 +179,8 @@
               <span class="info-box-icon bg-success elevation-1"><i class="fas fa-shopping-cart"></i></span>
 
               <div class="info-box-content">
-                <span class="info-box-text">Sales</span>
-                <span class="info-box-number">760</span>
+                <span class="info-box-text">Dịch vụ</span>
+                <span class="info-box-number">50</span>
               </div>
               <!-- /.info-box-content -->
             </div>
@@ -101,7 +192,7 @@
               <span class="info-box-icon bg-warning elevation-1"><i class="fas fa-users"></i></span>
 
               <div class="info-box-content">
-                <span class="info-box-text">New Members</span>
+                <span class="info-box-text">Sản phẩm</span>
                 <span class="info-box-number">2,000</span>
               </div>
               <!-- /.info-box-content -->
@@ -111,7 +202,372 @@
           <!-- /.col -->
         </div>
         <!-- /.row -->
+        <div class="w3-container">
+            <div>
+                <div class="booking-title">Lịch đặt mới chưa được duyệt</div> 
+                <div>
+                    <ul class="nav nav-pills nav-justified">
+                        <li class="nav-item font-weight-bold">
+                            <a class="nav-link active" data-toggle="tab" href="#list-recent">
+                                <h4>Recent &
+                                    Pending</h4>
+                            </a>
+                        </li>
+                        <li class="nav-item font-weight-bold">
+                            <a class="nav-link" data-toggle="tab" href="#list-upcoming">
+                                <h4>Upcoming
+                                    appointment</h4>
+                            </a>
+                        </li>
+                        <li class="nav-item font-weight-bold">
+                            <a class="nav-link" data-toggle="tab" href="#list-completed">
+                                <h4>Completed
+                                    appointment</h4>
+                            </a>
+                        </li>
+                        <li class="nav-item font-weight-bold">
+                            <a class="nav-link" data-toggle="tab" href="#list-canceled">
+                                <h4>Cencelled
+                                    appointment</h4>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="tab-content" style="overflow: auto;height: 80vh;">
+                <div id="list-recent" class="tab-pane active">
+                    <table class="table table-hover table-dark">
+                        <thead>
+                            <tr>
+                                <th>Ngày/Thời gian hẹn</th>
+                                <th>Tên</th>
+                                <th>Số điện thoại</th>
+                                <th>Dịch vụ</th>
+                                <th>Thợ tóc</th>
+                                <th>Trạng thái</th>
+                                <th>Xem thêm..</th>
+                            </tr>
+                        </thead>
+                        <tbody id="list-recent-appointment">
 
+                        </tbody>
+                    </table>
+                </div>
+                <div id="list-upcoming" class="tab-pane fade">
+                    <table class="table table-hover table-dark">
+                        <thead>
+                            <tr>
+                                <th>Ngày/Thời gian hẹn</th>
+                                <th>Tên</th>
+                                <th>Số điện thoại</th>
+                                <th>Dịch vụ</th>
+                                <th>Thợ tóc</th>
+                                <th>Trạng thái</th>
+                                <th>Xem thêm..</th>
+                            </tr>
+                        </thead>
+                        <tbody id="list-upcoming-appointment">
+                        </tbody>
+                    </table>
+                </div>
+                <div id="list-completed" class="tab-pane fade">
+                    <table class="table table-hover table-dark">
+                        <thead>
+                            <tr>
+                                <th>Ngày/Thời gian hẹn</th>
+                                <th>Tên</th>
+                                <th>Số điện thoại</th>
+                                <th>Dịch vụ</th>
+                                <th>Thợ tóc</th>
+                                <th>Trạng thái</th>
+                                <th>Đánh giá</th>
+                                <th>Xem thêm..</th>
+                            </tr>
+                        </thead>
+                        <tbody id="list-completed-appointment">
+
+                        </tbody>
+                    </table>
+                </div>
+                <div id="list-canceled" class="tab-pane fade">
+                    <table class="table table-hover table-dark">
+                        <thead>
+                            <tr>
+                                <th>Ngày/Thời gian hẹn</th>
+                                <th>Tên</th>
+                                <th>Số điện thoại</th>
+                                <th>Dịch vụ</th>
+                                <th>Thợ tóc</th>
+                                <th>Trạng thái</th>
+                                <th>Xem thêm..</th>
+                            </tr>
+                        </thead>
+                        <tbody id="list-canceled-appointment">
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+          
+
+          <div id="bookingStats" class="container-fluid tabContainer">
+              <div class="row m-5">
+                  <h2 class="col-12 text-center">Sơ đồ thống kê lịch đặt hẹn trong tháng</h2>
+              </div>
+              <div class="row">
+                  <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12" style="height: 500px;">
+                      <canvas id="bookingChart" height="500px"></canvas>
+                  </div>
+                  <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12" style="
+                  display: flex;
+                  flex-direction: column;
+                  justify-content: space-evenly;
+              ">
+                      <div class="row ml-3">
+                          <div class="col-1"
+                              style="height: 100%;background-color: rgb(253, 208, 87);float: left;">
+                          </div>
+                          <h4 class="col-10" id="completedCount">Completed appointments</h4>
+                      </div>
+                      <div class="row ml-3">
+                          <div class="col-1"
+                              style="height: 100%;background-color: rgb(65, 159, 235);float: left;">
+                          </div>
+                          <h4 class="col-10" id="upcomingCount">Upcoming appointments</h4>
+                      </div>
+                      <div class="row ml-3">
+                          <div class="col-1"
+                              style="height: 100%;background-color: rgb(74, 191, 192);float: left;">
+                          </div>
+                          <h4 class="col-10" id="pendingCount">Pending appointments</h4>
+                      </div>
+                      <div class="row ml-3">
+                          <div class="col-1"
+                              style="height: 100%;background-color: rgb(255, 101, 131);float: left;">
+                          </div>
+                          <h4 class="col-10" id="cancelledCount">Cancelled appointments</h4>
+                      </div>
+                  </div>
+              </div>
+          </div>
+
+          <div id="servicesStats" class="container-fluid tabContainer">
+              <div>
+                  <canvas id="servicesChart"></canvas>
+              </div>
+          </div>
+          <div id="staffsStats" class="container-fluid tabContainer">
+              <div class="row">
+                  <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
+                      <canvas id="beChart"></canvas>
+                  </div>
+                  <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
+                      <canvas id="feChart"></canvas>
+                  </div>
+              </div>
+          </div>
+      </div>
+
+      <!-- The Modal -->
+      <div class="modal fade" id="reviewModal">
+          <div class="modal-dialog modal-dialog-centered">
+              <div class="modal-content">
+                  <div class="modal-body">
+                      <form class="needs-validation" novalidate>
+                          <fieldset id="bookingForm" disabled class="border p-3">
+                              <legend class="w-auto text-center">Chi tiết lịch hẹn</legend>
+                              <div class="row">
+                                  <label for="fullname" class="col-md-4 col-form-label">Tên khách hàng: </label>
+                                  <input type="text" id="customer_fullname"
+                                      class="col-md-8 form-control font-weight-bold bg-transparent"
+                                      name="fullname" style="border: none;" value="" required>
+                                  <div class="invalid-feedback text-right">Vuiu lòng điền tên khách hàng</div>
+                              </div>
+                              <div class="row mt-3">
+                                  <label for="phone" class="col-md-4 col-form-label">Số điện thoại:</label>
+                                  <input type="text" id="customer_phone"
+                                      class="col-md-8 form-control font-weight-bold bg-transparent"
+                                      name="phone" style="border: none;" value="" required>
+                                  <div class="invalid-feedback text-right">Vui lòng điền số điện thoại</div>
+                              </div>
+                              <div class="row mt-3">
+                                  <label for="email" class="col-md-4 col-form-label">Email:</label>
+                                  <input type="text" id="customer_email"
+                                      class="col-md-8 form-control font-weight-bold bg-transparent"
+                                      name="email" style="border: none;" value="" required>
+                                  <div class="invalid-feedback text-right">Vui lòng điền địa chỉ email.</div>
+                              </div>
+                              <div class="row mt-3">
+                                  <label for="address"
+                                      class="col-md-4 col-form-label">Địa chỉ:</label>
+                                  <input type="text" id="customer_address"
+                                      class="col-md-8 form-control font-weight-bold bg-transparent"
+                                      name="address" style="border: none;" value="" required>
+                                  <div class="invalid-feedback text-right">Vui lòng điền địa chỉ khách hàng
+                                  </div>
+                              </div>
+                              <div class="row mt-3">
+                                  <div class="col-md-12 col-sm-12">
+                                      <fieldset class="border p-3">
+                                          <legend class="w-auto"></legend>
+                                          <div class="row">
+                                              <label for="service_id"
+                                                  class="col-md-4 col-form-label">Dịch vụ:</label>
+                                              <select id="service_id"
+                                                  class="col-md-8 form-control font-weight-bold bg-transparent"
+                                                  name="service_id" style="border: none;" required>
+                                              </select>
+                                              <div class="invalid-feedback text-right">Vui lòng chọn dịch vụ
+                                              </div>
+                                          </div>
+                                          <div class="row mt-3">
+                                              <label for="staff_id"
+                                                  class="col-md-4 col-form-label">Thợ tóc:</label>
+                                              <select id="staff_id"
+                                                  class="col-md-8 form-control font-weight-bold bg-transparent"
+                                                  name="staff_id" style="border: none;" required>
+                                              </select>
+                                              <div class="invalid-feedback text-right">Vui lòng chọn thợ chăm sóc tóc
+                                              </div>
+                                          </div>
+                                          <div id="datetime-view" class="row mt-3">
+                                              <p class="col-md-4">Ngày và giờ:</p>
+                                              <p class="col-md-8" id="datetimeView"></p>
+                                          </div>
+                                          <div id="date-time" class="row mt-3">
+                                              <label for="datetime" class="col-md-4 col-form-label">Ngày và giờ</label>
+                                              <input id="datetime" type="datetime-local"
+                                                  class="col-md-8 form-control font-weight-bold bg-transparent"
+                                                  name="datetime" required>
+                                              <div class="invalid-feedback text-right">Vui lòng đặt lịch hẹn
+                                              </div>
+                                          </div>
+                                          <div class="row mt-3" style="display: none;">
+                                              <label for="_id" class="col-md-4 col-form-label">_id:</label>
+                                              <input id="_id" type="text"
+                                                  class="col-md-8 form-control font-weight-bold bg-transparent"
+                                                  name="_id" value="" required>
+                                          </div>
+                                      </fieldset>
+                                  </div>
+                              </div>
+                          </fieldset>
+                          <div class="row mt-3 justify-content-center">
+                              <p id="cancelling" class="text-danger"><b>This appointment is pending
+                                      cancellation!</b></p>
+                              <p id="cancelled" class="text-danger"><b>This appointment has been
+                                      cancelled!</b></p>
+                              <p id="pending-msg" class="text-success"><b>This appointment is pending
+                                      to Approve!</b></p>
+                          </div>
+                          <div class="row justify-content-around">
+                              <button id="edit-btn" type="button" class="col-2 btn btn-primary"
+                                  onclick="editable()">Edit</button>
+                              <button id="update-btn" type="submit" class="col-2 btn btn-success"
+                                  onclick="update()">Update</button>
+                              <button id="create-btn" type="submit" class="col-2 btn btn-success"
+                                  onclick="createAppointment()">Create</button>
+                              <button id="approve-btn" type="button" class="col-2 btn btn-success"
+                                  data-toggle="modal" data-target="#confirmApprove">Approve</button>
+                              <button id="delete-btn" type="button" class="col-2 btn btn-danger"
+                                  data-toggle="modal" data-target="#confirmDelete">Delete</button>
+                              <button id="cancel-btn" type="button" class="col-2 btn btn-danger"
+                                  data-toggle="modal" data-target="#confirmCancel">Cancel</button>
+                              <button id="cancelled-btn" type="button" class="col-2 btn btn-danger"
+                                  data-toggle="modal" data-target="#confirmCancel">Approve</button>
+                          </div>
+                      </form>
+                      <div class="row mt-3 justify-content-center">
+                          <div id="ratingForm" class="col-md-12 col-sm-12">
+                              <fieldset disabled class="border p-3">
+                                  <legend class="w-auto text-center">Rating appointment</legend>
+                                  <div class="rating-container">
+                                      <div class="rated">
+                                          <div class="text">Thanks for rating us!</div>
+                                      </div>
+                                      <form class="star-widget">
+                                          <input type="radio" name="rating" id="rate-5" value="5">
+                                          <label for="rate-5" class="far fa-star"></label>
+                                          <input type="radio" name="rating" id="rate-4" value="4">
+                                          <label for="rate-4" class="far fa-star"></label>
+                                          <input type="radio" name="rating" id="rate-3" value="3">
+                                          <label for="rate-3" class="far fa-star"></label>
+                                          <input type="radio" name="rating" id="rate-2" value="2">
+                                          <label for="rate-2" class="far fa-star"></label>
+                                          <input type="radio" name="rating" id="rate-1" value="1">
+                                          <label for="rate-1" class="far fa-star"></label>
+                                          <div class="star-text">
+                                              <div class="textarea">
+                                                  <textarea cols="30" id="txtArea"
+                                                      placeholder="Describe your experience.."></textarea>
+                                              </div>
+                                              <div class="btn">
+                                                  <button id="rate-btn" type="submit"
+                                                      onclick="submitRating()">Submit</button>
+                                              </div>
+                                          </div>
+                                      </form>
+                                  </div>
+                              </fieldset>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+          </div>
+      </div>
+
+      <!-- Modal -->
+      <div class="modal fade" id="confirmDelete" data-keyboard="false" tabindex="-1"
+          aria-labelledby="confirmDeleteLabel" aria-hidden="true">
+          <div class="modal-dialog modal-sm modal-dialog-centered">
+              <div class="modal-content">
+                  <div class="modal-header">
+                      <h5 class="modal-title" id="confirmDeleteLabel">Confirm to delete!</h5>
+                  </div>
+                  <div class="modal-body">
+                      Are you sure you want to cancel this appointment?
+                  </div>
+                  <div class="modal-footer justify-content-between">
+                      <button type="button" class="btn btn-danger" onclick="deleteAppointment()">YES</button>
+                      <button type="button" class="btn btn-secondary" data-dismiss="modal">NO</button>
+                  </div>
+              </div>
+          </div>
+      </div>
+      <div class="modal fade" id="confirmCancel" data-keyboard="false" tabindex="-1"
+          aria-labelledby="confirmCancelLabel" aria-hidden="true">
+          <div class="modal-dialog modal-sm modal-dialog-centered">
+              <div class="modal-content">
+                  <div class="modal-header">
+                      <h5 class="modal-title" id="confirmCancelLabel">Confirm to cancel!</h5>
+                  </div>
+                  <div class="modal-body">
+                      Are you sure you want to cancel this appointment?
+                  </div>
+                  <div class="modal-footer justify-content-between">
+                      <button type="button" class="btn btn-danger" onclick="cancelAppointment()">YES</button>
+                      <button type="button" class="btn btn-secondary" data-dismiss="modal">NO</button>
+                  </div>
+              </div>
+          </div>
+      </div>
+      <div class="modal fade" id="confirmApprove" data-keyboard="false" tabindex="-1"
+          aria-labelledby="confirmApproveLabel" aria-hidden="true">
+          <div class="modal-dialog modal-sm modal-dialog-centered">
+              <div class="modal-content">
+                  <div class="modal-header">
+                      <h5 class="modal-title" id="confirmApproveLabel">Approval!</h5>
+                  </div>
+                  <div class="modal-body">
+                      Are you sure you want to approve this appointment?
+                  </div>
+                  <div class="modal-footer justify-content-between">
+                      <button type="button" class="btn btn-success" onclick="approve()">YES</button>
+                      <button type="button" class="btn btn-secondary" data-dismiss="modal">NO</button>
+                  </div>
+              </div>
+          </div>
+      </div>
       </div><!--/. container-fluid -->
     </section>
     <!-- /.content -->
@@ -126,5 +582,11 @@
 
   <!-- Main Footer -->
   <%- include('../includes/footer')%>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.5.1/chart.js"></script>
+
+  <script src="/js/bkmanager.js"></script>
+  <script src="/js/servicesChart.js"></script>
+  <!-- <script src="/js/bookingChart.js"></script> -->
+  
 </body>
 </html>

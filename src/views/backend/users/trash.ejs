@@ -1,20 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta http-equiv="x-ua-compatible" content="ie=edge">
-
-  <title>ADMIN</title>
-
-  <!-- Font Awesome Icons -->
-  <link rel="stylesheet" href="/backend/plugins/fontawesome-free/css/all.min.css">
-  <!-- overlayScrollbars -->
-  <link rel="stylesheet" href="/backend/plugins/overlayScrollbars/css/OverlayScrollbars.min.css">
-  <!-- Theme style -->
-  <link rel="stylesheet" href="/backend/dist/css/adminlte.min.css">
-  <!-- Google Font: Source Sans Pro -->
-  <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
+  <%- include('../includes/headerCSS')%>
 </head>
 <body class="hold-transition sidebar-mini layout-fixed layout-navbar-fixed layout-footer-fixed">
 <div class="wrapper">
@@ -68,8 +55,8 @@
                         <img src="/backend/uploads/<%= user.avatar%>" alt="" style="max-width: 15%;">
                        </td>
                     <td>
-                        <a href="" data-id="<%= user._id %>" class="btn-restore">Restore</a>
-                        <a href="" data-toggle="modal" data-target="#modal-delete-user" data-id="<%= user._id%>">Delete</a>
+                        <a class="list-active btn-restore" href="" data-id="<%= user._id %>" class=""><i class="far fa-window-restore"></i></a>
+                        <a class="list-active" href="" data-toggle="modal" data-target="#modal-delete-user" data-id="<%= user._id%>">Delete</a>
                     </td>
                 </tr>
                 <% }) %> 
@@ -124,14 +111,14 @@
     })
    
     btnDelete.onclick = function () {
-      formDelete.action='/users/delete/force/'+ product_id +'?_method=DELETE';
+      formDelete.action='/users/delete/force/'+ user_id +'/?_method=DELETE';
       formDelete.submit();
     };
 
     btnRestore.click(function (e) {
         e.preventDefault();
         var user_id = $(this).data('id');
-        formRestore.action='/users/restore/'+ product_id +'?_method=PATCH';
+        formRestore.action='/users/restore/'+ user_id +'/?_method=PATCH';
         formRestore.submit();
     });
   </script>

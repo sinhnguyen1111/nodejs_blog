@@ -9,8 +9,11 @@ const User = new Schema(
  {
 		name: {type: String},
 		email: {type: String},
+        phone: {type: String},
+        address: {type: String},
 		password: {type: String},
         avatar: {type: String,maxlength:255},
+        role: {type: String}
     },
     {
         timestamps: true,

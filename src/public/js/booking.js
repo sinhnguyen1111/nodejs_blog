@@ -101,12 +101,13 @@ function validateInput() {
 $('form').submit(function (e) {
 	e.preventDefault();
 });
+//**done */
 function bookingForm() {
 	var data = {
-		customer_fullname: $('#customer_fullname').val(),
-		customer_phone: $('#customer_phone').val(),
-		customer_email: $('#customer_email').val(),
-		customer_address: $('#customer_address').val(),
+		fullname: $('#customer_fullname').val(),
+		phone: $('#customer_phone').val(),
+		email: $('#customer_email').val(),
+		address: $('#customer_address').val(),
 		service_id: $('#service_id').val(),
 		staff_id: $('#staff_id').val(),
 		datetime: $('#datetime').val(),
@@ -137,9 +138,11 @@ function getService() {
 		url: '/booking/get-service',
 		method: 'GET',
 		success: function (rs) {
+			// console.log(rs);
 			for (var key in rs) {
+				// console.log(rs[key]);
 				var option = `
-                <option value="${rs[key]._id}">${rs[key].service_name}</option>
+                <option value="${rs[key]._id}">${rs[key].name}</option>
                 `;
 				$('#service-id').append(option);
 			}
@@ -157,7 +160,7 @@ function getStaff() {
                     <input id="${rs[key]._id}" type="radio" hidden value="${rs[key]._id}" class="form-check-input"
                         name="select-staff" onchange="staffIntro(this.value)" required>
                     <label for="${rs[key]._id}" class="form-check-label">
-                        <img src="${rs[key].staff_avatar}" alt="">
+                        <img src="/backend/uploads/${rs[key].avatar}" alt="">
                     </label>
                 </div>
                 `;
@@ -178,10 +181,10 @@ function serviceIntro() {
 			for (var key in rs) {
 				var rs_id = rs[key]._id;
 				if (service_id == rs_id) {
-					var info = rs[key].service_introduce;
+					var info = rs[key].description;
 					$('#service_introduce').append(info);
 					var assign = `
-                    <option value="${rs[key]._id}" selected>${rs[key].service_name}</option>
+                    <option value="${rs[key]._id}" selected>${rs[key].name}</option>
                     `;
 					$('#service_id').append(assign);
 				} else {
@@ -203,15 +206,15 @@ function staffIntro(value) {
 			for (var key in rs) {
 				var rs_id = rs[key]._id;
 				if (staff_id == rs_id) {
-					$('#staff_fullname').html(`<b>${rs[key].staff_fullname}</b>`);
+					$('#staff_fullname').html(`<b>${rs[key].name}</b>`);
 					var stars = `
-                    Service quality: <br> <b>${rs[key].staff_stars}</b> <br> <i class="fas fa-star"></i>
+                    Service quality: <br> <b>${rs[key].star}</b> <br> <i class="fas fa-star"></i>
                     `;
-					var info = rs[key].staff_introduce;
+					var info = rs[key].introduce;
 					$('#staff_stars').append(stars);
 					$('#staff_introduce').append(info);
 					var assign = `
-                    <option value="${rs[key]._id}" selected>${rs[key].staff_fullname}</option>
+                    <option value="${rs[key]._id}" selected>${rs[key].name}</option>
                     `;
 					$('#staff_id').append(assign);
 				} else {

@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <%- include('../includes/headerCSS')%>
+</head>
+<body class="hold-transition sidebar-mini layout-fixed layout-navbar-fixed layout-footer-fixed">
+<div class="wrapper">
+  <!-- Navbar -->
+  <%-  include('../includes/header')%>
+  <!-- /.navbar -->
+
+  <!-- Main Sidebar Container -->
+  <%-  include('../includes/sidebar')%>
+
+  <!-- Content Wrapper. Contains page content -->
+  <div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <div class="content-header">
+      <div class="content-header">
+        <div class="container-fluid">
+          
+        </div><!-- /.container-fluid -->
+      </div>
+    </div>
+    <!-- /.content-header -->
+
+   <div class="type-posts">
+     <%- include('create')%>
+     <section class="content list-types">
+      <div class="container-fluid">
+        <h2 class="title-header">Danh sách danh mục dịch vụ và sản phẩm</h2>
+        <div class="trash-pagi">
+          
+          <div class="pagination">
+            <nav aria-label="Page navigation example">
+              <ul class="pagination">
+                <li class="page-item">
+                  <a class="page-link" href="#" aria-label="Previous">
+                    <span aria-hidden="true">&laquo;</span>
+                  </a>
+                </li>
+                <li class="page-item"><a class="page-link" href="#">1</a></li>
+                <li class="page-item"><a class="page-link" href="#">2</a></li>
+                <li class="page-item"><a class="page-link" href="#">3</a></li>
+                <li class="page-item">
+                  <a class="page-link" href="#" aria-label="Next">
+                    <span aria-hidden="true">&raquo;</span>
+                  </a>
+                </li>
+              </ul>
+            </nav>
+          </div>
+          <a class="trash" href="/categories/trash"><i class="far fa-trash-alt"></i></a>
+        </div>
+        
+        <div>
+            <table class="table">
+                <tr>
+                    <th>#</th>
+                    <th style="width: 100px;">Hình ảnh</th>
+                    <th >Tên danh mục</th>
+                    <th>Loại</th>
+                    <th>Hành động</th>
+                </tr>
+                <% categories.forEach(function(category,index){%>
+                  <tr>
+                    <td><%= index +1 %></td>
+                    <td>
+                      <img class="data-avatar" src="/backend/uploads/<%=category.image%>" alt="">
+                    </td>
+                    <td><%= category.name%></td>
+                    <td><%- category.type%></td>
+                    <td>
+                      <a class="list-active" href="/categories/edit/<%= category._id%>"><i class="far fa-edit"></i></a>
+                      <a class="list-active" href="" data-toggle="modal" data-target="#modal-delete-category" data-id="<%= category._id%>"><i class="far fa-trash-alt"></i></a>
+                    </td>
+                  </tr>
+                  <% }) %>
+            </table>
+          
+              <!--modal delete-->
+            <div class="modal fade" id="modal-delete-category" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+              <div class="modal-dialog">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h5 class="modal-title">Delete category</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"></button>
+                  </div>
+                  <div class="modal-body">
+                    <p>Bạn chắc chắn muốn xóa?</p>
+                  </div>
+                  <div class="modal-footer">
+                    <button type="button" id="btn-delete" class="btn btn-danger">Delete</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                  </div>
+                </div>
+              </div>
+            </div><!--end modal delete-->
+        </div>
+        <!-- /.row -->
+
+      </div><!--/. container-fluid -->
+    </section>
+   </div>
+    
+    <!-- /.content -->
+  </div>
+  <!-- /.content-wrapper -->
+
+  <!-- Control Sidebar -->
+  <aside class="control-sidebar control-sidebar-dark">
+    <!-- Control sidebar content goes here -->
+  </aside>
+  <!-- /.control-sidebar -->
+  <form name="form-delete-category" method="POST"></form>
+  <!-- Main Footer -->
+  <%- include('../includes/footer')%>
+  <script>
+    var category_id;
+    var formDelete = document.forms['form-delete-category'];
+    $('#modal-delete-category').on('show.bs.modal', function (event) {
+      var button = $(event.relatedTarget);
+      category_id = button.data('id');
+      
+     
+    })
+    var btnDelete = document.getElementById('btn-delete');
+    btnDelete.onclick = function () {
+      formDelete.action='/categories/delete/'+ category_id +'?_method=DELETE';
+      formDelete.submit();
+    }
+  </script>
+</body>
+</html>

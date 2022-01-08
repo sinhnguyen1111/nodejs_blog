@@ -2,6 +2,8 @@ const express = require('express');
 const router = express.Router();
 
 const siteController = require('../app/controllers/client/SitesController');
+const homeClientController = require('../app/controllers/client/HomeClientController');
+const hairServiceController = require('../app/controllers/client/HairServiceController');
 
 // const passport = require('passport');
 // require('../config/passport')(passport);
@@ -21,18 +23,18 @@ const siteController = require('../app/controllers/client/SitesController');
 // }
 
 //GET post list and comments
-// router.get('/post-list', (req, res, next) => {
-//             posts
-//                 .find({})
-// 				.sort({date: -1})
-//                 .limit(3)
-//             	.then(posts => {
-//                 	getCountComments(posts).then(listPosts =>
-//                     	res.send(listPosts)
-//                 	);
-//             	})
-//             .catch(next);
-// });
+router.get('/post-list', (req, res, next) => {
+            posts
+                .find({})
+				.sort({date: -1})
+                .limit(3)
+            	.then(posts => {
+                	getCountComments(posts).then(listPosts =>
+                    	res.send(listPosts)
+                	);
+            	})
+            .catch(next);
+});
 
 // router.post(
 // 	'/login',
@@ -57,7 +59,22 @@ router.get('/contact-us', siteController.contactUs);
 
 router.get('/thankyou',siteController.thanks);
 
-router.get('/', siteController.home);
+router.get('/get-S-header', homeClientController.getcategoryS);
+router.get('/get-P-header', homeClientController.getcategoryP);
+router.get('/get-type-header', homeClientController.getType);
+router.get('/', homeClientController.home);
+
+router.get('/booking', siteController.booking);
+
+router.get('/hair-services', hairServiceController.hairService);
+router.get('/hair-services/:slug', hairServiceController.show);
+
+router.get('/hair-problems', siteController.hairProblem);
+
+router.get('/hair-styles', siteController.hairStyle);
+router.get('/hair-styles/gallery', siteController.hairStyleGallery);
+
+router.get('/products',siteController.clientProducts);
 
 module.exports = router;
 

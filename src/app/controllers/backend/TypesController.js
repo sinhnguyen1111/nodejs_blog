@@ -8,7 +8,7 @@ class TypesController{
     index(req,res,next){
         Type.find({})
             .then(types => res.render('backend/types/list',{
-                types
+                types,name: req.session.name
             }))
             .catch(next);
     }
@@ -22,7 +22,9 @@ class TypesController{
     //         .catch(next);
     // }
     create(req,res,next){
-        res.render('backend/types/create');
+        res.render('backend/types/create',{
+            name: req.session.name
+        });
     }
     
     store(req,res,next){
@@ -38,7 +40,7 @@ class TypesController{
     edit(req,res,next){
         Type.findById(req.params.id)
             .then(type => res.render('backend/types/edit',{
-                type
+                type,name: req.session.name
                 }))
         
             .catch(next);
@@ -56,7 +58,7 @@ class TypesController{
     trash(req,res,next){
         Type.findDeleted({})
         .then(type => res.render('backend/types/trash',{
-            type
+            type,name: req.session.name
         }))
         .catch(next);
     }

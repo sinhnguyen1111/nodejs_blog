@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <%- include('../includes/headerCSS')%>
+</head>
+<body class="hold-transition sidebar-mini layout-fixed layout-navbar-fixed layout-footer-fixed">
+<div class="wrapper">
+  <!-- Navbar -->
+  <%-  include('../includes/header')%>
+  <!-- /.navbar -->
+
+  <!-- Main Sidebar Container -->
+  <%-  include('../includes/sidebar')%>
+
+  <!-- Content Wrapper. Contains page content -->
+  <div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <div class="content-header">
+      <div class="container-fluid">
+        <div class="row mb-2">
+          <div class="col-sm-6">
+            <h2 class="title-header">Danh sách dịch vụ chăm sóc tóc</h2>
+          </div><!-- /.col -->
+          
+        </div><!-- /.row -->
+      </div><!-- /.container-fluid -->
+    </div>
+    <!-- /.content-header -->
+
+    <!-- Main content -->
+    <section class="content">
+      <div class="container-fluid">
+        <div class="active-user">
+          <div>
+            <a class="create" href="/services/create">Create</a>
+          </div>
+          <div class="active-form">
+            <div class="active-search">
+              <form action="">
+                <input type="text">
+                <button>Search</button>
+              </form>
+            </div>
+            <div class="pagination">
+              <ul>
+                <li><a href="">1</a></li>
+              </ul>
+            </div>
+            <div>
+              <a href="/services/trash"><i class="fas fa-trash-restore"></i></a>
+            </div>
+          </div>
+          
+        </div>
+        <div>
+            <table class="table">
+                <tr>
+                    <th>#</th>
+                    <th style="width:200px">Hình ảnh</th>
+                    <th>Tên dịch vụ</th>
+                    <th>Giá</th>
+                    <th>Danh mục</th>
+                    <th>Hành động</th>
+                </tr>
+                  <% services.forEach(function(service,index){ %>
+                <tr>
+                    <td><%= index +1 %></td>
+                    <td>
+                      <img class="data-avatar" src="/backend/uploads/<%= service.image[0] %>" alt="Image product" style="width:100%">  
+                    </td>
+                    <td><%= service.name%></td>
+                    <td><%= service.price %></td>
+                    <td><%= service.category %></td>
+                    <td>
+                        <a class="list-active" href="/services/edit/<%= service._id%>"><i class="far fa-edit"></i></a>
+                        <a class="list-active" href="" data-toggle="modal" data-target="#modal-delete-service" data-id="<%= service._id%>"><i class="fas fa-trash-restore"></i></a>
+                    </td>
+                </tr>
+                <% }) %> 
+            </table>
+          
+              <!--modal delete-->
+            <div class="modal fade" id="modal-delete-service" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+              <div class="modal-dialog">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h5 class="modal-title">Delete service</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"></button>
+                  </div>
+                  <div class="modal-body">
+                    <p>Bạn chắc chắn muốn xóa?</p>
+                  </div>
+                  <div class="modal-footer">
+                    <button type="button" id="btn-delete" class="btn btn-danger">Delete</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                  </div>
+                </div>
+              </div>
+            </div><!--end modal delete-->
+        </div>
+        <!-- /.row -->
+
+      </div><!--/. container-fluid -->
+    </section>
+    <!-- /.content -->
+  </div>
+  <!-- /.content-wrapper -->
+
+  <!-- Control Sidebar -->
+  <aside class="control-sidebar control-sidebar-dark">
+    <!-- Control sidebar content goes here -->
+  </aside>
+  <!-- /.control-sidebar -->
+  <form name="form-delete" method="POST"></form>
+  <!-- Main Footer -->
+  <%- include('../includes/footer')%>
+  <script>
+    var product_id;
+    var formDelete = document.forms['form-delete'];
+    $('#modal-delete-service').on('show.bs.modal', function (event) {
+      var button = $(event.relatedTarget);
+      product_id = button.data('id');
+      
+     
+    })
+    var btnDelete = document.getElementById('btn-delete');
+    btnDelete.onclick = function () {
+      formDelete.action='/services/delete/'+ product_id +'?_method=DELETE';
+      formDelete.submit();
+    }
+  </script>
+</body>
+</html>

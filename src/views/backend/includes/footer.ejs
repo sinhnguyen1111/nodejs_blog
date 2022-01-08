@@ -27,15 +27,19 @@
 <script src="/backend/plugins/jquery-mapael/jquery.mapael.min.js"></script>
 <script src="/backend/plugins/jquery-mapael/maps/usa_states.min.js"></script>
 <!-- ChartJS -->
-<script src="/backend/plugins/chart.js/Chart.min.js"></script>
-
+<!-- <script src="/backend/plugins/chart.js/Chart.min.js"></script> -->
 <!-- Summer note-->
 <script src="/backend/plugins/summernote/summernote.min.js"></script>
+<!--moment-->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"
+    integrity="sha512-qTXRIMyZIFb8iQcfjXWCO8+M5Tbc38Qi5WzdPOYZHIlZpzBHG3L3by84BBBOiRGiEb7KKtAOAs5qYdUiZiQNNQ=="
+    crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 <!-- PAGE SCRIPTS -->
 <script src="/backend/dist/js/pages/dashboard2.js"></script>
+
 <script>
   $(document).ready(function() {
-  $('#summernote').summernote();
+  $('.summernote').summernote();
 });
 </script>
 <script>
@@ -45,4 +49,48 @@
     URL.revokeObjectURL($('#image_past').src); // free memory
   }
 }
+</script>
+<script>
+  function previewFile(input){
+    var file = $('.avatar').get(0).files[0];
+    if(file){
+      var reader = new FileReader();
+      reader.onload = function(){
+          $('.previewImg').attr("src",reader.result);
+      }
+      reader.readAsDataURL(file);
+    }
+  }
+</script>
+<script>
+  // Get the Sidebar
+  var mySidebar = document.getElementById("mySidebar");
+
+  // Get the DIV with overlay effect
+  var overlayBg = document.getElementById("myOverlay");
+
+  // Toggle between showing and hiding the sidebar, and add overlay effect
+  function w3_open() {
+      if (mySidebar.style.display === 'block') {
+          mySidebar.style.display = 'none';
+          overlayBg.style.display = "none";
+      } else {
+          mySidebar.style.display = 'block';
+          overlayBg.style.display = "block";
+      }
+  }
+
+  // Close the sidebar with the close button
+  function w3_close() {
+      mySidebar.style.display = "none";
+      overlayBg.style.display = "none";
+  }
+  $(document).ready(function () {
+      let path = window.location.pathname;
+      $('.side-link').each(function () {
+          if (path === $(this).attr('href')) {
+              $(this).addClass('w3-blue');
+          }
+      });
+  });
 </script>

@@ -21,7 +21,7 @@ let upload = multer({storage: storage});
 router.get('/create',userController.create);
 router.post('/store',upload.single('avatar'),userController.store);
 router.get('/edit/:id',userController.edit);
-router.put('/update/:id',userController.update);
+router.put('/update/:id',upload.single('avatar'),userController.update);
 router.delete('/delete/:id',userController.delete);
 router.delete('/delete/force/:id',userController.destroy);
 router.patch('/restore/:id',userController.restore);

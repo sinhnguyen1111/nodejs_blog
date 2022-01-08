@@ -1,0 +1,451 @@
+<!DOCTYPE html>
+<!--Code By Webdevtrick ( https://webdevtrick.com )-->
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Hair Services</title>
+    <link
+        href="https://fonts.googleapis.com/css?family=Josefin+Sans:100,200,300,regular,500,600,700,100italic,200italic,300italic,italic,500italic,600italic,700italic"
+        rel="stylesheet" />
+    <%- include('../layouts/head') %>
+        <link rel="stylesheet" href="/css/owl.carousel.min.css">
+        <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/fullPage.js/2.9.7/jquery.fullpage.css'>
+        <style>
+            .header-main {
+                display: none;
+            }
+
+            .header {
+                position: relative;
+                z-index: 2;
+            }
+            section{
+                margin-bottom: 50px;
+            }
+
+            .breadcrumb {
+                padding: 0;
+                flex-direction: column;
+                position: relative;
+                text-align: center;
+            }
+
+            .breadcrumb img {
+                width: 100%;
+            }
+
+            /* .breadcrumb::before {
+                    content: '';
+                    position: absolute;
+                    top: 0;
+                    left: 0;
+                    width: 100%;
+                    height: 100%;
+                    bottom: 0;
+                    background-image: linear-gradient(transparent, #fff);
+                } */
+
+            .breadcrumb-text {
+                position: relative;
+                z-index: 1;
+                font-weight: 300;
+            }
+
+            .breadcrumb-text a {
+                color: #000;
+                text-decoration: none;
+            }
+
+            .breadcrumb-text a:hover {
+                color: #d39e3c;
+            }
+
+            .half {
+                padding: 0;
+            }
+
+            .half.half-right .col-right::before {
+                content: '';
+                position: absolute;
+                right: 0;
+                left: 0;
+                bottom: 0;
+                top: 0;
+                background-color: #000;
+                transition: all 0.3s cubic-bezier(0.55, 0.085, 0.68, 0.53);
+                opacity: 0;
+            }
+
+            .half.half-right .col-right:hover::before {
+                opacity: .25;
+            }
+
+            .half-left .col-left fieldset {
+                border-color: #d1a95e !important;
+            }
+
+            .col-left {
+                width: 100%;
+                height: 100%;
+                position: relative;
+                padding: 25px 50px;
+            }
+
+            .col-left .text-wrap {
+                width: inherit;
+                /* position: absolute;
+                    top: 40%; */
+            }
+
+            .col-left h1 {
+                font-family: 'Josefin Sans';
+                font-size: 3em;
+            }
+
+            .col-right {
+                padding: 0;
+                background-color: transparent;
+                height: 100%;
+                width: 100%;
+                position: relative;
+                background-size: cover;
+                background-repeat: no-repeat;
+                background-position: center center;
+            }
+
+            .services-select-box {
+                margin: 0 auto;
+                position: relative;
+                top: 20%;
+                /* left: 50px;
+                    right: 50px; */
+                z-index: 1;
+            }
+
+            .service-selection {
+                max-width: 600px;
+                margin: 0 auto;
+            }
+
+            .service-selection li {
+                list-style: none;
+                /* width: 100px; */
+                height: 80px;
+                padding: 10px;
+            }
+
+            .service-selection li a.service-btn {
+                border-radius: 0;
+                position: relative;
+                padding: 0;
+                display: inline-block;
+                text-decoration: none;
+                width: 100%;
+                height: 100%;
+                line-height: 60px;
+                border: 1px solid #d1a95e;
+                text-shadow: 0 0 5px #000;
+                text-transform: uppercase;
+                font-family: 'Josefin Sans';
+                font-size: 16px;
+                transition: all 0.5s cubic-bezier(0.55, 0.085, 0.68, 0.53);
+            }
+
+            .service-selection li a.service-btn:hover {
+                transform: all 0.5s;
+                border: 0;
+                background-color: rgba(255, 255, 255, 0.2);
+            }
+
+            /* .service-selection  {
+                } */
+
+            .service-selection li a.service-btn:hover .btn-before,
+            .service-selection li a.service-btn:hover .btn-after {
+                transform: scale(1);
+            }
+
+            .service-selection li a.service-btn.active {
+                border: 1px solid #d1a95e;
+                background-color: rgba(0, 0, 0, 0.5);
+            }
+
+            .footer {
+                margin-bottom: 80px;
+            }
+
+            h2,
+            .inner .heading-service {
+                font-family: 'Josefin Sans';
+                text-transform: uppercase;
+                font-size: 30px;
+                line-height: 1;
+                font-weight: 700;
+                color: #777777;
+            }
+
+            .inner p {
+                font-family: 'Josefin Sans';
+                font-size: 20px;
+                font-weight: 300;
+                font-style: normal;
+                color: #777777;
+                letter-spacing: 0.01em;
+                line-height: 1.8;
+            }
+
+            .inner .label-text {
+                font-family: "Josefin Sans", sans-serif;
+                text-transform: uppercase;
+                font-size: 20px;
+                font-weight: 400;
+                line-height: 2;
+                letter-spacing: 0.2em;
+                color: #777777;
+            }
+
+            .inner table td {
+                padding: 7px 30px 7px 0;
+            }
+
+            .inner .btn.btn-fixed {
+                position: relative;
+                font-family: 'Josefin Sans';
+                text-transform: uppercase;
+                border-radius: 0;
+                height: 50px;
+                width: 240px;
+                border: none;
+                outline: none;
+                background-color: #d1a95e;
+                color: #fff;
+                transition: all 0.3s;
+            }
+
+            .inner .btn.btn-fixed:hover {
+                /* border: 2px solid #d1a95e; */
+                background: #fff;
+                color: #000;
+            }
+
+            .inner .btn.btn-fixed span {
+                line-height: 40px;
+            }
+
+            .inner .btn.btn-fixed:hover .btn-before,
+            .inner .btn.btn-fixed:hover .btn-after {
+                transform: scale(1);
+            }
+
+            .btn-before,
+            .btn-after {
+                position: absolute;
+                top: 0;
+                left: 0;
+                height: 100%;
+                width: 100%;
+                transition: all 0.5s;
+                transform: scale(0);
+            }
+
+            .btn-before {
+                transform-origin: left bottom;
+                border-bottom: 1px solid #d1a95e;
+                border-left: 1px solid #d1a95e;
+            }
+
+            .btn-after {
+                transform-origin: right top;
+                border-right: 1px solid #d1a95e;
+                border-top: 1px solid #d1a95e;
+            }
+
+            /* On low PC */
+            @media (min-width: 992px) {}
+
+            /* On tablet */
+            @media (min-width: 768px) and (max-width: 991.98px) {
+                .half-left {
+                    height: 100vh;
+                }
+
+                .half-right {
+                    height: 100vh;
+                }
+            }
+
+            /* On mobile */
+            @media (max-width: 767.98px) {
+                .half-left {
+                    height: 100vh;
+                }
+
+                .half-right {
+                    height: 100vh;
+                }
+
+                .header-navbar {
+                    display: none;
+                }
+
+                .breadcrumb {
+                    margin-top: 92px;
+                }
+
+                .mobile-menu-icon {
+                    display: block;
+                }
+
+                .top-phone {
+                    display: none;
+                }
+
+                .header-padding {
+                    padding-top: 127px;
+                }
+
+                .header-main {
+                    display: block;
+                    background: white;
+                    position: fixed;
+                    top: 0;
+                    left: 0;
+                    right: 0;
+                }
+
+                #fp-nav ul li {
+                    display: none;
+                }
+
+                .footer {
+                    margin-bottom: 0;
+                }
+
+                .services-select-box {
+                    position: relative;
+                    top: 7%;
+                    padding: 100px;
+                }
+
+                .service-selection {
+                    display: grid;
+                    grid-template-columns: repeat(1, auto);
+                }
+            }
+        </style>
+</head>
+
+<body>
+
+    <%- include('../layouts/header') %>
+
+        <div id="fullpage">
+            <div class="section fp-auto-height">
+                <div class="main-content">
+                    <div class="breadcrumb d-flex justify-content-center align-items-center">
+                        <img src="/images/slider0.jpg" alt="">
+                        <!-- <h1 class="breadcrumb-text">Hair Services</h1>
+                            <p class="breadcrumb-text"><a href="">Home</a>&nbsp; / &nbsp;Hair Services</p> -->
+                    </div>
+                </div>
+            </div>
+            <% if(typeof getSC !== 'undefined'){%>
+
+            <div class="section">
+                <div class="container-fluid" style="height: 100%;">
+                    <div class="row" style="height: 100%;">
+                        <div class="half half-left col-xl-6 col-lg-6 col-md-12 col-sm-12 col-12">
+                            <div class="col-left">
+                                <% getSC.forEach(function(getSC,index){%>
+                                <div class="tab-content">
+                                    <div class="text-wrap container tab-pane active">
+                                        <h1 class="text-center" style="line-height: 85vh;"><%= getSC.category%></h1>
+                                    </div>
+                                    <div id="cut-style<%=index+1%>" class="container tab-pane fade"><br>
+                                        <fieldset class="border p-5" style="height: 800px;">
+                                            <legend class="w-auto text-center">
+                                                <h2><b><%= getSC.name%></b></h2>
+                                            </legend>
+                                            <!--detail-->
+                                            <div class="inner">
+                                                <h3 class="heading-service"></h3>
+                                                <div class="blog-styled">
+                                                    <p><%- getSC.description%></p>
+                                                    <a class="btn btn-fixed salon-color" href="/services/haircut-and-design"><span>Đọc thêm</span>
+                                                        <div class="btn-before"></div>
+                                                        <div class="btn-after"></div>
+                                                    </a>
+                                                   
+                                                </div><!-- .blog-styled -->
+                                                <div class="btn-row cf">
+                                                    <a href="#" class="btn btn-fixed salon-color"><span>Book
+                                                            Now!</span>
+                                                        <div class="btn-before"></div>
+                                                        <div class="btn-after"></div>
+                                                    </a>
+                                                </div>
+                                            </div><!--end detail-->
+                                        </fieldset>
+                                    </div>
+                                </div>
+                                <% }) %>
+                            </div>
+                        </div>
+                        <div class="half half-right col-xl-6 col-lg-6 col-md-12 col-sm-12 col-12">
+                            <div class="col-right"
+                                style="height: 100%; background-image: url(/images/section_hair_cut.jpg);">
+                                <div class="services-select-box">
+                                    <ul class="row service-selection text-center nav nav-pills" role="tablist">
+                                        <% getSC.forEach(function(getSC,index){%>
+                                            <li class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12 nav-item"><a
+                                                href="#cut-style<%=index+1%>" class="service-btn text-white nav-link"
+                                                data-toggle="pill"><%= getSC.name%><div class="btn-before"></div>
+                                                <div class="btn-after"></div>
+                                            </a></li>
+                                            <% }) %>
+                                        
+                                        
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <% } %>
+            
+            
+                    </section>
+            </div>
+            <%- include('../layouts/footer') %>     
+            
+            <script src="/js/owl.carousel.min.js"></script>
+            <script src='https://cdnjs.cloudflare.com/ajax/libs/fullPage.js/2.9.7/jquery.fullpage.js'></script>
+            <script>
+                $('.header-top').hide()
+                $('.header-main-scroll').hide()
+                $('.header-nav-scroll').hide()
+
+                $('#fullpage').fullpage({
+                    responsiveWidth: 992,
+                    navigation: true,
+                    navigationPosition: 'left',
+                    navigationTooltips: ['services', 'Cut+Style', 'Color', 'Texture', 'Specialty'],
+                    anchors: ['services', 'Cut+Style', 'Color', 'Texture', 'Specialty'],
+                    afterLoad: function (origin, destination, direction) {
+                        $('#fp-nav ul').children('li').first().hide();
+                        $('#fp-nav ul').children('li').last().hide();
+                        if (destination == 1 || destination == 6) {
+                            $('#fp-nav').hide();
+                        } else {
+                            $('#fp-nav').show();
+                        }
+                    },
+                });
+            </script>
+
+</body>
+
+</html>

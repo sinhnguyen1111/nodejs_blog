@@ -9,6 +9,7 @@ const Type = new Schema(
  {
 		name: {type: String},
 		description: {type: String},
+        slug: {type: String, maxLength:255,slug: 'name',unique:true},
     },
     {
         timestamps: true,

@@ -3,27 +3,36 @@ $('form').submit(function (e) {
 });
 function getAllBookingList() {
 	$.ajax({
-		url: '/manager/list-all-booking',
+		url: '/manage/list-all-booking',
 		method: 'GET',
 		success: function (rs) {
 			$('#list-recent-appointment').html('');
 			$('#list-upcoming-appointment').html('');
 			$('#list-completed-appointment').html('');
 			$('#list-canceled-appointment').html('');
+			var todayCount = 0;
+			var completedCount = 0;
+			var upcomingCount = 0;
+			var pendingCount = 0;
+			var cancelledCount = 0;
+			var bookingCount = rs.length;
+			var items = '';
+			$('#bookingCount').html(bookingCount);
 			for (var key in rs) {
 				var rsdate = new Date(rs[key].datetime);
 				var today = new Date();
 
 				switch (rs[key].status) {
 					case -2:
+						
 						var item = `
 									<tr>
 										<td>${moment(`${rs[key].datetime}`).format('ddd DD/MM/YYYY - HH:mm')}</td>
-										<td>${rs[key].customer_fullname}</td>
-										<td>${rs[key].customer_phone}</td>
-										<td>${rs[key].Service.service_name}</td>
-										<td>${rs[key].Staff.staff_fullname}</td>
-										<td><span class="badge badge-danger">Cancelled</span></td>
+										<td>${rs[key].fullname}</td>
+										<td>${rs[key].phone}</td>
+										<td>${rs[key].Service.name}</td>
+										<td>${rs[key].Staff.name}</td>
+										<td><span class="badge badge-danger">Đã hủy</span></td>
 										<td><button type="button" class="btn btn-light" data-toggle="modal" data-target="#reviewModal" value="${
 											rs[key]._id
 										}"
@@ -32,16 +41,17 @@ function getAllBookingList() {
 									</tr>
 							`;
 						$('#list-canceled-appointment').append(item);
+						cancelledCount += 1;
 						break;
 					case -1:
 						var item = `
 									<tr>
 										<td>${moment(`${rs[key].datetime}`).format('ddd DD/MM/YYYY - HH:mm')}</td>
-										<td>${rs[key].customer_fullname}</td>
-										<td>${rs[key].customer_phone}</td>
-										<td>${rs[key].Service.service_name}</td>
-										<td>${rs[key].Staff.staff_fullname}</td>
-										<td><span class="badge badge-danger">Pending</span></td>
+										<td>${rs[key].fullname}</td>
+										<td>${rs[key].phone}</td>
+										<td>${rs[key].Service.name}</td>
+										<td>${rs[key].Staff.name}</td>
+										<td><span class="badge badge-danger">Đang xử lí</span></td>
 										<td><button type="button" class="btn btn-light" data-toggle="modal" data-target="#reviewModal" value="${
 											rs[key]._id
 										}"
@@ -55,11 +65,11 @@ function getAllBookingList() {
 						var item = `
 									<tr>
 										<td>${moment(`${rs[key].datetime}`).format('ddd DD/MM/YYYY - HH:mm')}</td>
-										<td>${rs[key].customer_fullname}</td>
-										<td>${rs[key].customer_phone}</td>
-										<td>${rs[key].Service.service_name}</td>
-										<td>${rs[key].Staff.staff_fullname}</td>
-										<td><span class="badge badge-success">Pending</span></td>
+										<td>${rs[key].fullname}</td>
+										<td>${rs[key].phone}</td>
+										<td>${rs[key].Service.name}</td>
+										<td>${rs[key].Staff.name}</td>
+										<td><span class="badge badge-success">Đang xử lí</span></td>
 										<td><button type="button" class="btn btn-light" data-toggle="modal" data-target="#reviewModal" value="${
 											rs[key]._id
 										}"
@@ -68,18 +78,21 @@ function getAllBookingList() {
 									</tr>
 							`;
 						$('#list-recent-appointment').append(item);
+						pendingCount += 1;
 						break;
 					case 2:
 						if (rsdate <= today) {
+							completedCount += 1;
 							if (rs[key].rating <= 0) {
 								var item = `
 											<tr>
 												<td>${moment(`${rs[key].datetime}`).format('ddd DD/MM/YYYY - HH:mm')}</td>
-												<td>${rs[key].customer_fullname}</td>
-												<td>${rs[key].customer_phone}</td>
-												<td>${rs[key].Service.service_name}</td>
-												<td>${rs[key].Staff.staff_fullname}</td>
-												<td><span class="badge badge-secondary">none Rated</span></td>
+												<td>${rs[key].fullname}</td>
+												<td>${rs[key].phone}</td>
+												<td>${rs[key].Service.name}</td>
+												<td>${rs[key].Staff.name}</td>
+												<td><span class="badge badge-warning">Đã hoàn thành</span></td>
+												<td><span class="badge badge-secondary">Chưa đánh giá</span></td>
 												<td><button type="button" class="btn btn-light" data-toggle="modal" data-target="#reviewModal" value="${
 													rs[key]._id
 												}"
@@ -89,14 +102,16 @@ function getAllBookingList() {
 										`;
 								$('#list-completed-appointment').prepend(item);
 							} else if (rs[key].rating > 0) {
+								// upcomingCount += 1;
 								var item = `
 											<tr>
 												<td>${moment(`${rs[key].datetime}`).format('ddd DD/MM/YYYY - HH:mm')}</td>
-												<td>${rs[key].customer_fullname}</td>
-												<td>${rs[key].customer_phone}</td>
-												<td>${rs[key].Service.service_name}</td>
-												<td>${rs[key].Staff.staff_fullname}</td>
-												<td><span class="badge badge-warning">Rated</span></td>
+												<td>${rs[key].fullname}</td>
+												<td>${rs[key].phone}</td>
+												<td>${rs[key].Service.name}</td>
+												<td>${rs[key].Staff.name}</td>
+												<td><span class="badge badge-warning">Đã hoàn thành</span></td>
+												<td><span class="badge badge-warning">Đã đánh giá</span></td>
 												<td><button type="button" class="btn btn-light" data-toggle="modal" data-target="#reviewModal" value="${
 													rs[key]._id
 												}"
@@ -106,54 +121,121 @@ function getAllBookingList() {
 										`;
 								$('#list-completed-appointment').prepend(item);
 							}
-						} else if (rsdate > today) {
-							if (rsdate.toDateString() == today.toDateString()) {
-								var item = `
-												<tr>
-													<td>${moment(`${rs[key].datetime}`).format('ddd DD/MM/YYYY - HH:mm')}</td>
-													<td>${rs[key].customer_fullname}</td>
-													<td>${rs[key].customer_phone}</td>
-													<td>${rs[key].Service.service_name}</td>
-													<td>${rs[key].Staff.staff_fullname}</td>
-													<td><span class="badge badge-warning">Approve</span></td>
-													<td><button type="button" class="btn btn-light" data-toggle="modal" data-target="#reviewModal" value="${
-														rs[key]._id
-													}"
-													onclick="viewDetail(this.value)">
-													<i class="fas fa-ellipsis-h"></i></button></td>
-												</tr>
-										`;
-								$('#list-recent-appointment').append(item);
-							}
-							if (rsdate.toDateString() != today.toDateString()) {
-								var item = `
-													<tr>
-														<td>${moment(`${rs[key].datetime}`).format('ddd DD/MM/YYYY - HH:mm')}</td>
-														<td>${rs[key].customer_fullname}</td>
-														<td>${rs[key].customer_phone}</td>
-														<td>${rs[key].Service.service_name}</td>
-														<td>${rs[key].Staff.staff_fullname}</td>
-														<td><span class="badge badge-warning">Approve</span></td>
-														<td><button type="button" class="btn btn-light" data-toggle="modal" data-target="#reviewModal" value="${
-															rs[key]._id
-														}"
-														onclick="viewDetail(this.value)">
-														<i class="fas fa-ellipsis-h"></i></button></td>
-													</tr>
-											`;
-								$('#list-upcoming-appointment').append(item);
-							}
+						} else {
+							
+							var item = `
+							<tr>
+								<td>${moment(`${rs[key].datetime}`).format('ddd DD/MM/YYYY - HH:mm')}</td>
+								<td>${rs[key].fullname}</td>
+								<td>${rs[key].phone}</td>
+								<td>${rs[key].Service.name}</td>
+								<td>${rs[key].Staff.name}</td>
+								<td><span class="badge badge-warning">Đã duyệt</span></td>
+								<td><button type="button" class="btn btn-light" data-toggle="modal" data-target="#reviewModal" value="${
+									rs[key]._id
+								}"
+								onclick="viewDetail(this.value)">
+								<i class="fas fa-ellipsis-h"></i></button></td>
+							</tr>
+					`;
+							upcomingCount+=1;
+							$('#list-upcoming-appointment').append(item);
 						}
+							// 	var item = `
+							// 						<tr>
+							// 							<td>${moment(`${rs[key].datetime}`).format('ddd DD/MM/YYYY - HH:mm')}</td>
+							// 							<td>${rs[key].fullname}</td>
+							// 							<td>${rs[key].phone}</td>
+							// 							<td>${rs[key].Service.name}</td>
+							// 							<td>${rs[key].Staff.name}</td>
+							// 							<td><span class="badge badge-warning">Đã duyệt</span></td>
+							// 							<td><button type="button" class="btn btn-light" data-toggle="modal" data-target="#reviewModal" value="${
+							// 								rs[key]._id
+							// 							}"
+							// 							onclick="viewDetail(this.value)">
+							// 							<i class="fas fa-ellipsis-h"></i></button></td>
+							// 						</tr>
+							// 				`;
+							// 	$('#list-upcoming-appointment').append(item);
+							// }
+						
 						break;
 
 					default:
 						break;
 				}
+				$('#todayCount').html(todayCount);
+				$('#completedCount').html(
+					`Compeleted appointment <b>${completedCount}/${bookingCount} (${(
+						(completedCount / bookingCount) *
+						100
+					).toFixed(2)}%)</b>`
+				);
+				$('#upcomingCount').html(
+					`Upcoming appointment <b>${upcomingCount}/${bookingCount} (${(
+						(upcomingCount / bookingCount) *
+						100
+					).toFixed(2)}%)</b>`
+				);
+				$('#pendingCount').html(
+					`Pending appointment <b>${pendingCount}/${bookingCount} (${(
+						(pendingCount / bookingCount) *
+						100
+					).toFixed(2)}%)</b>`
+				);
+				$('#cancelledCount').html(
+					`Cancelled appointment <b>${cancelledCount}/${bookingCount} (${(
+						(cancelledCount / bookingCount) *
+						100
+					).toFixed(2)}%)</b>`
+				);
 			}
+			var counter = [];
+			counter.push(completedCount);
+			counter.push(upcomingCount);
+			counter.push(pendingCount);
+			counter.push(cancelledCount);
+		//Sơ đồ thống kê số lịch đặt hẹn
+			var bookingChart = new Chart(document.getElementById('bookingChart'), {
+				type: 'pie',
+				data: {
+					labels: ['Completed', 'Upcoming', 'Pending', 'Cancelled'],
+					datasets: [
+						{
+							label: 'My First Dataset',
+							data: counter,
+							backgroundColor: [
+								'rgb(253, 208, 87)',
+								'rgb(65, 159, 235)',
+								'rgb(74, 191, 192)',
+								'rgb(255, 101, 131)',
+							],
+							hoverOffset: 4,
+						},
+					],
+				},
+				options: {
+					responsive: true,
+					maintainAspectRatio: false,
+					plugins: {
+						legend: {
+							display: false,
+							position: 'bottom',
+							labels: {
+								font: {
+									size: 24,
+								},
+							},
+						},
+					},
+				},
+			});
+			
 		},
 	});
 }
 getAllBookingList();
+
 function findByPhone() {
 	if ($('#customer-phone').val() == '') {
 		return false;
@@ -269,10 +351,10 @@ function findByPhone() {
 									var item = `
 													<tr>
 														<td>${moment(`${rs[key].datetime}`).format('ddd DD/MM/YYYY - HH:mm')}</td>
-														<td>${rs[key].customer_fullname}</td>
-														<td>${rs[key].customer_phone}</td>
-														<td>${rs[key].Service.service_name}</td>
-														<td>${rs[key].Staff.staff_fullname}</td>
+														<td>${rs[key].ullname}</td>
+														<td>${rs[key].phone}</td>
+														<td>${rs[key].Service.name}</td>
+														<td>${rs[key].Staff.name}</td>
 														<td><span class="badge badge-warning">Approve</span></td>
 														<td><button type="button" class="btn btn-light" data-toggle="modal" data-target="#reviewModal" value="${
 															rs[key]._id
@@ -287,11 +369,11 @@ function findByPhone() {
 									var item = `
 														<tr>
 															<td>${moment(`${rs[key].datetime}`).format('ddd DD/MM/YYYY - HH:mm')}</td>
-															<td>${rs[key].customer_fullname}</td>
-															<td>${rs[key].customer_phone}</td>
-															<td>${rs[key].Service.service_name}</td>
-															<td>${rs[key].Staff.staff_fullname}</td>
-															<td><span class="badge badge-warning">Approve</span></td>
+															<td>${rs[key].ullname}</td>
+															<td>${rs[key].phone}</td>
+															<td>${rs[key].Service.name}</td>
+															<td>${rs[key].Staff.name}</td>
+															<td><span class="badge badge-warning">Đã duyệt</span></td>
 															<td><button type="button" class="btn btn-light" data-toggle="modal" data-target="#reviewModal" value="${
 																rs[key]._id
 															}"
@@ -316,7 +398,7 @@ function findByPhone() {
 function viewDetail(value) {
 	$.ajax({
 		type: 'GET',
-		url: '/manager/find-by-id',
+		url: '/manage/find-by-id',
 		data: {
 			_id: value,
 		},
@@ -330,17 +412,17 @@ function viewDetail(value) {
 			$('#datetimeView').html('');
 			$('#datetime').html('');
 			document.getElementById('customer_fullname').value =
-				rs[0].customer_fullname;
-			document.getElementById('customer_phone').value = rs[0].customer_phone;
-			document.getElementById('customer_email').value = rs[0].customer_email;
+				rs[0].fullname;
+			document.getElementById('customer_phone').value = rs[0].phone;
+			document.getElementById('customer_email').value = rs[0].email;
 			document.getElementById('customer_address').value =
-				rs[0].customer_address;
+				rs[0].address;
 			document.getElementById(
 				'service_id'
-			).innerHTML = `<option value="" selected>${rs[0].Service.service_name}</option>`;
+			).innerHTML = `<option value="" selected>${rs[0].Service.name}</option>`;
 			document.getElementById(
 				'staff_id'
-			).innerHTML = `<option value="" selected>${rs[0].Staff.staff_fullname}</option>`;
+			).innerHTML = `<option value="" selected>${rs[0].Staff.name}</option>`;
 			document.getElementById('datetimeView').innerHTML = `<b>${moment(
 				`${rs[0].datetime}`
 			).format('ddd DD/MM/YYYY - HH:mm')}</b>`;
@@ -502,7 +584,7 @@ function createAppointment() {
 function approve() {
 	$.ajax({
 		type: 'PUT',
-		url: '/manager/approve',
+		url: '/manage/approve',
 		data: {
 			_id: $('#_id').val(),
 			status: 2,
@@ -516,7 +598,7 @@ function approve() {
 function cancelAppointment() {
 	$.ajax({
 		type: 'PUT',
-		url: '/manager/cancel',
+		url: '/manage/cancel',
 		data: {
 			_id: $('#_id').val(),
 			status: -2,
@@ -555,12 +637,12 @@ function editable() {
 }
 function getService() {
 	$.ajax({
-		url: '/manager/get-service',
+		url: '/manage/get-service',
 		method: 'GET',
 		success: function (rs) {
 			for (var key in rs) {
 				var option = `
-                <option value="${rs[key]._id}">${rs[key].service_name}</option>
+                <option value="${rs[key]._id}">${rs[key].name}</option>
                 `;
 				$('#service_id').append(option);
 			}
@@ -569,12 +651,12 @@ function getService() {
 }
 function getStaff() {
 	$.ajax({
-		url: '/manager/get-staff',
+		url: '/manage/get-staff',
 		method: 'GET',
 		success: function (rs) {
 			for (var key in rs) {
 				var option = `
-                <option value="${rs[key]._id}">${rs[key].staff_fullname}</option>
+                <option value="${rs[key]._id}">${rs[key].name}</option>
                 `;
 				$('#staff_id').append(option);
 			}
@@ -592,7 +674,7 @@ function submitRating() {
 	}
 	$.ajax({
 		type: 'PUT',
-		url: '/manager/update',
+		url: '/manage/update',
 		data: {
 			_id: $('#_id').val(),
 			comment: $('#txtArea').val(),
@@ -607,7 +689,7 @@ function submitRating() {
 function deleteAppointment() {
 	$.ajax({
 		type: 'DELETE',
-		url: '/manager/delete',
+		url: '/manage/delete',
 		data: {
 			_id: $('#_id').val(),
 		},
@@ -619,10 +701,10 @@ function deleteAppointment() {
 }
 function update() {
 	var data = {
-		customer_fullname: $('#customer_fullname').val(),
-		customer_phone: $('#customer_phone').val(),
-		customer_email: $('#customer_email').val(),
-		customer_address: $('#customer_address').val(),
+		fullname: $('#customer_fullname').val(),
+		phone: $('#customer_phone').val(),
+		email: $('#customer_email').val(),
+		address: $('#customer_address').val(),
 		service_id: $('#service_id').val(),
 		staff_id: $('#staff_id').val(),
 		datetime: $('#datetime').val(),
@@ -631,7 +713,7 @@ function update() {
 	};
 	$.ajax({
 		type: 'PUT',
-		url: '/manager/update',
+		url: '/manage/update',
 		data: data,
 		success: function (rs) {
 			alert(rs);

@@ -8,7 +8,7 @@ class StaffsController {
     index(req,res,next){
         Staff.find({})
             .then(staffs => res.render('backend/staffs/list',{
-                staffs
+                staffs,name: req.session.name
             }))
             .catch(next);
     }
@@ -22,7 +22,7 @@ class StaffsController {
     //         .catch(next);
     // }
     create(req,res,next){
-        res.render('backend/staffs/create');
+        res.render('backend/staffs/create',{name: req.session.name});
     }
     
     store(req,res,next){
@@ -38,7 +38,7 @@ class StaffsController {
     edit(req,res,next){
         Staff.findById(req.params.id)
             .then(staff => res.render('backend/staffs/edit',{
-                staff
+                staff,name: req.session.name
                 }))
         
             .catch(next);
@@ -58,7 +58,7 @@ class StaffsController {
     trash(req,res,next){
         Staff.findDeleted({})
         .then(users => res.render('backend/staffs/trash',{
-            users
+            users,name: req.session.name
         }))
         .catch(next);
     }

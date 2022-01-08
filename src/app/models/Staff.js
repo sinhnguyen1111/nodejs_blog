@@ -9,6 +9,8 @@ const Staff = new Schema(
  {
 		name: {type: String},
 		star: {type: Number},
+        email: {type: String},
+        numberphone: {type: String},
 		introduce: {type: String},
         avatar: {type: String,maxlength:255},
     },

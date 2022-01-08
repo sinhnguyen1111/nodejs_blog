@@ -1,20 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta http-equiv="x-ua-compatible" content="ie=edge">
-
-  <title>ADMIN</title>
-
-  <!-- Font Awesome Icons -->
-  <link rel="stylesheet" href="/backend/plugins/fontawesome-free/css/all.min.css">
-  <!-- overlayScrollbars -->
-  <link rel="stylesheet" href="/backend/plugins/overlayScrollbars/css/OverlayScrollbars.min.css">
-  <!-- Theme style -->
-  <link rel="stylesheet" href="/backend/dist/css/adminlte.min.css">
-  <!-- Google Font: Source Sans Pro -->
-  <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
+  <%- include('../includes/headerCSS')%>
 </head>
 <body class="hold-transition sidebar-mini layout-fixed layout-navbar-fixed layout-footer-fixed">
 <div class="wrapper">
@@ -32,14 +19,9 @@
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
-            <h1 class="m-0 text-dark">Dashboard v2</h1>
+            <h2 class="title-header">Danh sách đội ngũ thợ tóc</h2>
           </div><!-- /.col -->
-          <div class="col-sm-6">
-            <ol class="breadcrumb float-sm-right">
-              <li class="breadcrumb-item"><a href="#">Home</a></li>
-              <li class="breadcrumb-item active">Dashboard v2</li>
-            </ol>
-          </div><!-- /.col -->
+          
         </div><!-- /.row -->
       </div><!-- /.container-fluid -->
     </div>
@@ -49,31 +31,49 @@
     <section class="content">
       <div class="container-fluid">
         <!-- Info boxes -->
-        <button class="btn btn-success">
-            <a href="/staffs/create">Create</a>
-        </button>
-        <h2>Danh sách đội ngũ thợ tóc</h2>
-        <a href="/staffs/trash">Thùng rác</a>
-        <div>
+        <div class="active-user">
+          <div>
+            <a class="create" href="/staffs/create"><i class="fas fa-plus"></i></a>
+          </div>
+          <div class="active-form">
+            <div class="active-search">
+              <form action="">
+                <input type="text">
+                <button>Search</button>
+              </form>
+            </div>
+            <div class="pagination">
+              <ul>
+                <li><a href="">1</a></li>
+              </ul>
+            </div>
+            <div>
+              <a class="trash" href="/staffs/trash"><i class="far fa-trash-alt"></i></a>
+            </div>
+          </div>
+          
+        </div>
+        <div class="data-table">
             <table class="table">
                 <tr>
-                    <th>Stt</th>
+                    <th>#</th>
                     <th>Name</th>
-                    <th>Stars</th>
+                    <th>Email</th>
                     <th>Avatar</th>
                     <th>Active</th>
                 </tr>
-                <% staffs.forEach(function(staff){%>
+                <% staffs.forEach(function(staff,index){%>
                   <tr>
-                    <td>1</td>
+                    <td><%= index+1 %></td>
                     <td><%= staff.name%></td>
-                    <td><%= staff.email%></td>
+                    
+                    <th><%- staff.email%></th>
                     <td>
-                     <img src="/backend/uploads/<%= staff.avatar%>" alt="" style="max-width: 15%;">
+                     <img class="data-avatar" src="/backend/uploads/<%= staff.avatar%>" alt="">
                     </td>
                     <td>
-                      <a href="/staffs/edit/<%= staff._id%>">Sửa</a>
-                      <a href="" data-toggle="modal" data-target="#modal-delete-staff" data-id="<%= staff._id%>">Xóa</a>
+                      <a class="list-active" href="/staffs/edit/<%= staff._id%>"><i class="far fa-edit"></i></a>
+                      <a class="list-active" href="" data-toggle="modal" data-target="#modal-delete-staff" data-id="<%= staff._id%>"><i class="far fa-trash-alt"></i></a>
                     </td>
                   </tr>
                   <% }) %>

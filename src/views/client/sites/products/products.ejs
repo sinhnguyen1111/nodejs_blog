@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Products</title>
+    <%- include('../../layouts/head') %>
+    <!-- Thư viện và CSS Import ở dưới -->
+    <link rel="stylesheet" href="/css/owl.carousel.min.css">
+    <link rel="stylesheet" href="/css/owl.theme.default.min.css">
+    <link rel="stylesheet" href="/css/products.css">
+    <link rel="stylesheet" href="/css/productsResponsive.css">
+<body>
+<%- include('../../layouts/header') %>
+
+<div class="main-content" >
+    <div class="breadcrumb d-flex justify-content-center align-items-center" style="background-image: url(/images/breadcrumb_bg_img.jpg)">
+        <h1 class="breadcrumb-text">Products</h1>
+        <p class="breadcrumb-text">
+            <%=product[0].category%>
+        </p>
+    </div>
+</div>
+
+<div class="main-wrap">
+    <div class="row">
+        <div class="main-left col-lg-3 col-md-3 col-sm-12">
+            <div class="category">
+                <div class="main-left-heading">Categories</div>
+                <ul class="category-list">
+                    <li class="category-item">
+                        <i class="fas fa-circle"></i>
+                        <a href="/products?category=Shampoo">Shampoo</a>
+                    </li>
+
+                    <li class="category-item">
+                        <i class="fas fa-circle"></i>
+                        <a href="/products?category=Nature Haircare" >Nature Haircare</a>
+                    </li>
+
+                    <li class="category-item">
+                        <i class="fas fa-circle"></i>
+                        <a href="/products?category=Hair Treatments" >Hair Treatments</a>
+                    </li>
+
+                    <li class="category-item">
+                        <i class="fas fa-circle"></i>
+                        <a href="/products?category=Styling Products" >Styling Products</a>
+                    </li>
+
+                    <li class="category-item">
+                        <i class="fas fa-circle"></i>
+                        <a href="/products?category=Hair Dryers" >Hair Dryers</a>
+                    </li>
+
+                    <li class="category-item">
+                        <i class="fas fa-circle"></i>
+                        <a href="/products?category=Flat Irons" >Flat Irons</a>
+                    </li>
+
+                    <li class="category-item">
+                        <i class="fas fa-circle"></i>
+                        <a href="/products?category=Curling Irons" >Curling Irons</a>
+                    </li>
+
+                    <li class="category-item">
+                        <i class="fas fa-circle"></i>
+                        <a href="/products?category=Cutting Tools" >Cutting Tools</a>
+                    </li>
+
+                </ul>
+            </div>
+
+            <div class="best-choice">
+                <div class="main-left-heading">Best Choice</div>
+
+                <div class="owl-carousel owl-theme best-choice-list">
+
+                    <div class="best-choice-item">
+                        <a href="/products/<%=product[0].slug%>" class="best-choice-img"><img src="<%=product[0].image[0]%>" alt=""></a>
+                        <a href="/products/<%=product[0].slug%>" class="owl-carousel-link"><%=product[0].name%></a>
+                        <div class="line-img"></div>
+                        <div class="price">$<%=product[0].price%></div>
+                    </div>
+
+                    <div class="best-choice-item">
+                        <a href="/products/<%=product[1].slug%>" class="best-choice-img"><img src="<%=product[1].image[0]%>" alt=""></a>
+                        <a href="/products/<%=product[1].slug%>" class="owl-carousel-link"><%=product[1].name%></a>
+                        <div class="line-img"></div>
+                        <div class="price">$<%=product[1].price%></div>
+                    </div>
+
+                    <div class="best-choice-item">
+                        <a href="/products/<%=product[3].slug%>" class="best-choice-img"><img src="<%=product[3].image[0]%>" alt=""></a>
+                        <a href="/products/<%=product[3].slug%>" class="owl-carousel-link"><%=product[3].name%></a>
+                        <div class="line-img"></div>
+                        <div class="price">$<%=product[3].price%></div>
+                    </div>
+
+                    <div class="best-choice-item">
+                        <a href="/products/<%=product[5].slug%>" class="best-choice-img"><img src="<%=product[5].image[0]%>" alt=""></a>
+                        <a href="/products/<%=product[5].slug%>" class="owl-carousel-link"><%=product[5].name%></a>
+                        <div class="line-img"></div>
+                        <div class="price">$<%=product[5].price%></div>
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+
+        <div class="main-right col-lg-9 col-md-9 col-sm-12">
+            <div class="row">
+                <div class="col-lg-5 col-md-5 col-sm-12">
+                    <select class="form-select" aria-label="Default select example">
+                        <option selected>Deafault sorting</option>
+                        <option value="1">Sort by name: A to Z</option>
+                        <option value="2">Sort by name: Z to A</option>
+                        <option value="3">Sort by price: Low to High</option>
+                        <option value="3">Sort by price: High to Low</option>
+                    </select>
+                </div>
+            </div>
+            <div class="row" id = "productlist">
+                <%for (let i = 0; i<product.length;i++) {%>
+                <div class="col-lg-4 col-md-6 col-sm-12">
+                    <div class="post-info text-center">
+                        <div class="fall-item fall-effect">
+                            <img src="<%=product[i].image[0]%>" alt="" width="100%"/>
+                            <div class="mask">
+                                <p><%=product[i].description%></p>
+                                <div class="post-read-more">
+                                    <a href="/products/<%=product[i].slug%>">Read More&nbsp;<i class="fas fa-angle-double-right read-more-icon"></i>
+                                        <div class="post-read-more-before"></div>
+                                        <div class="post-read-more-after"></div>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                        <a href="/products/<%=product[i].slug%>" class="product-name"><%=product[i].name%></a>
+                        <div class="line-img"></div>
+                        <div class="price">$ <%=product[i].price%></div>
+                    </div>
+                </div>
+                <%}%>
+            </div>
+        </div>
+    </div>
+</div>
+
+<%- include('../../layouts/footer') %>
+<script src="/js/owl.carousel.min.js"></script>
+<script src="/js/layout.js"></script>
+<script>
+    $('.owl-carousel').owlCarousel({
+        loop:true,
+        margin:10,
+        nav:true,
+        autoplay:true,
+        autoplayTimeout:4000,
+        autoplayHoverPause:true,
+        navText : ['<div class="carousel-nav-text"><i class="fal fa-chevron-left"></i></div>','<div class="carousel-nav-text"><i class="fal fa-chevron-right"></i></div>'],
+        responsive:{
+            0:{
+                items:1
+            }
+        }
+    });
+</script>
+</body>
+</html>

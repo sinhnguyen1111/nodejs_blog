@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <%- include('../includes/headerCSS')%>
+</head>
+<body class="hold-transition sidebar-mini layout-fixed layout-navbar-fixed layout-footer-fixed">
+<div class="wrapper">
+  <!-- Navbar -->
+  <%-  include('../includes/header')%>
+  <!-- /.navbar -->
+
+  <!-- Main Sidebar Container -->
+  <%-  include('../includes/sidebar')%>
+
+  <!-- Content Wrapper. Contains page content -->
+  <div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <div class="content-header">
+      <div class="container-fluid">
+        <div class="header-edit">
+          <div class="title-header">Chỉnh sửa danh mục</div>
+          <div><a href="/categories/list"><i class="fas fa-arrow-left"></i></a></div>
+        </div>
+      </div><!-- /.container-fluid -->
+    </div>
+    <!-- /.content-header -->
+
+    <!-- Main content -->
+    <section class="content">
+      <div class="container-fluid create-container">
+        <div>
+            <form action="/categories/update/<%= category._id%>/?_method=PUT" method="POST" enctype="multipart/form-data">
+                <div class="mb-3">
+                  <label for="exampleInputEmail1" class="form-label">Name: </label>
+                  <input type="text" name="name" value="<%= category.name%>" class="form-control">
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Description</label>
+                    <textarea class="summernote" name="description"  class="form-control"><%= category.description %></textarea>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Category</label>
+                    <select name="category" id="">
+                        <option value="<%= category.type%>"><%= category.type%></option>
+                        <option value="Service">Service</option>
+                        <option value="Product">Product</option>
+                    </select>
+                </div>
+                <div class="custom-file mb-3">
+                  <input type="file" name="avatar" class="custom-file-input avatar" id="validatedCustomFile"  onchange="previewFile(this)">
+                  <label class="custom-file-label" for="validatedCustomFile"><%=category.image%> </label>
+                </div>
+                <div> 
+                  <img src="/backend/uploads/<%=category.image%>" class="previewImg">
+                </div>
+                <button type="submit" class="btn btn-primary btn-active-create">Create</button>
+              </form>
+        </div>
+        <!-- /.row -->
+
+      </div><!--/. container-fluid -->
+    </section>
+    <!-- /.content -->
+  </div>
+  <!-- /.content-wrapper -->
+
+  <!-- Control Sidebar -->
+  <aside class="control-sidebar control-sidebar-dark">
+    <!-- Control sidebar content goes here -->
+  </aside>
+  <!-- /.control-sidebar -->
+
+  <!-- Main Footer -->
+  <%- include('../includes/footer')%>
+</body>
+</html>

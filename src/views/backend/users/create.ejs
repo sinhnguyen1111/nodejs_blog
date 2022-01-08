@@ -1,20 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <%- include('../includes/headerCSS')%>
 
-  <title>ADMIN</title>
-
-  <!-- Font Awesome Icons -->
-  <link rel="stylesheet" href="/backend/plugins/fontawesome-free/css/all.min.css">
-  <!-- overlayScrollbars -->
-  <link rel="stylesheet" href="/backend/plugins/overlayScrollbars/css/OverlayScrollbars.min.css">
-  <!-- Theme style -->
-  <link rel="stylesheet" href="/backend/dist/css/adminlte.min.css">
-  <!-- Google Font: Source Sans Pro -->
-  <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
 </head>
 <body class="hold-transition sidebar-mini layout-fixed layout-navbar-fixed layout-footer-fixed">
 <div class="wrapper">
@@ -30,43 +18,56 @@
     <!-- Content Header (Page header) -->
     <div class="content-header">
       <div class="container-fluid">
-        <div class="row mb-2">
-          <div class="col-sm-6">
-            <ol class="breadcrumb float-sm-right">
-              <li class="breadcrumb-item"><a href="#">Home</a></li>
-              <li class="breadcrumb-item active">Dashboard v2</li>
-            </ol>
-          </div><!-- /.col -->
-        </div><!-- /.row -->
+        <div class="header-edit">
+          <div class="title-header">Thêm mới nhân viên</div>
+          <div><a href="/users/list"><i class="fas fa-arrow-left"></i></a></div>
+        </div>
       </div><!-- /.container-fluid -->
     </div>
     <!-- /.content-header -->
+    
 
     <!-- Main content -->
     <section class="content">
-      <div class="container-fluid">
-        <!-- Info boxes -->
-        <h2>Thêm mới nhân viên</h2>
+      <div class="container-fluid create-container">
         <div>
             <form action="/users/store" method="POST" enctype="multipart/form-data">
                 <div class="mb-3">
-                  <label for="exampleInputEmail1" class="form-label">Name: </label>
-                  <input type="text" name="name" class="form-control">
+                  <label for="exampleInputEmail1" class="form-label">Tên nhân viên</label>
+                  <input type="text" name="name" class="form-control" placeholder="Điền tên nhân viên...">
                 </div>
                 <div class="mb-3">
                     <label class="form-label">Email</label>
-                    <input type="text" name="email" class="form-control">
+                    <input type="text" name="email" class="form-control" placeholder="Điền email nhân viên...">
                   </div>
+                  <div class="mb-3">
+                    <label class="form-label">Số điện thoại</label>
+                    <input type="text" name="phone" class="form-control" placeholder="Điền số điện thoại....">
+                  </div>
+                  <div class="mb-3">
+                    <label class="form-label">Địa chỉ</label>
+                    <input type="text" name="address" class="form-control" placeholder="Điền địa chỉ....">
+                  </div>
+
                 <div class="mb-3">
-                  <label for="exampleInput2" class="form-label">Password</label>
+                  <label for="exampleInput2" class="form-label">Mật khẩu</label>
                   <input type="text" name="password" class="form-control">
                 </div>
-                <div class="custom-file mb-3">
-                  <input type="file" name="avatar" class="custom-file-input" id="validatedCustomFile" required>
-                  <label class="custom-file-label" for="validatedCustomFile">Choose file...</label>
-                  <div class="invalid-feedback">Example invalid custom file feedback</div>
+                <div class="mb-3">
+                  <label for="exampleInput2" class="form-label">Vai trò</label>
+                  <select name="role" id="">
+                      <option value="Quản trị viên">Quản trị viên</option>
+                      <option value="Nhân viên">Nhân viên</option>
+                  </select>
                 </div>
-                <button type="submit" class="btn btn-primary">Create</button>
+                <div class="custom-file mb-3">
+                  <input type="file" name="avatar" class="custom-file-input avatar" id="validatedCustomFile" required onchange="previewFile(this)">
+                  <label class="custom-file-label" for="validatedCustomFile">Chọn ảnh đại diện</label>
+                </div>
+                <div>
+                  <img class="previewImg"src="http://aimory.vn/wp-content/uploads/2017/10/no-image.png" alt="" id="displayImg1" width="15%">
+                </div>
+                <button type="submit" class="btn btn-primary btn-active-create">Thêm mới</button>
               </form>
 
             
@@ -87,5 +88,17 @@
 
   <!-- Main Footer -->
   <%- include('../includes/footer')%>
+  <!-- <script>
+    function previewFile(input){
+      var file = $('.avatar').get(0).files[0];
+      if(file){
+        var reader = new FileReader();
+        reader.onload = function(){
+            $('.previewImg').attr("src",reader.result);
+        }
+        reader.readAsDataURL(file);
+      }
+    }
+  </script> -->
 </body>
 </html>

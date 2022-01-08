@@ -100,3 +100,52 @@ catIconControl.each(function (key) {
         $(catListChild[key]).slideToggle();
     });
 });
+function getcategoryS() {
+    $.ajax({
+        url: '/get-S-header',
+        method: 'GET',
+        success: function (rs) {
+            // console.log(rs);
+            for (var key in rs) {
+                var li = `
+                <li class="nav-item-child"><a href="/hair-services/${rs[key].slug}#Cut+Style">${rs[key].name}</a></li>
+                `;
+                $('.service').append(li);
+            }
+        },
+    });
+}
+function getcategoryP() {
+    $.ajax({
+        url: '/get-P-header',
+        method: 'GET',
+        success: function (rs) {
+            // console.log(rs);
+            for (var key in rs) {
+                var li = `
+                <li class="nav-item-child"><a href="/products/${rs[key].slug}">${rs[key].name}</a></li>
+                `;
+                $('.products-list').append(li);
+            }
+        },
+    });
+}
+
+function getType() {
+    $.ajax({
+        url: '/get-type-header',
+        method: 'GET',
+        success: function (rs) {
+            // console.log(rs);
+            for (var key in rs) {
+                var li = `
+                <li class="nav-item-child"><a href="/hair-problems/${rs[key].slug}">${rs[key].name}</a></li>
+                `;
+                $('.blog').append(li);
+            }
+        },
+    });
+}
+getcategoryS();
+getcategoryP();
+getType();
